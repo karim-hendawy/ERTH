@@ -1,0 +1,3771 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إرث - معاينة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+  <style>
+    :root {
+      --bgColor: #FCF4E3;
+      --mainColor: #433222;
+      --textColor: black;
+      --textWhy: #907263;
+      --cardBg: #FEFCF8;
+      --borderColor: #D5C7C1;
+      --inputBg: #F5ECD8;
+      --sidebarBg: #FEFCF8;
+      --iconActive: #FCF4E3;
+      --inGam: #433222;
+      --navBorderColor: #D5C7C1;
+      --mainFont: 'Tajawal', sans-serif;
+      --userNameColor: #333;
+      --secFont: 'Doran', serif;
+      --shadowHover: 0 8px 32px rgba(67, 50, 34, 0.14);
+      --red: #C0392B;
+      --orange: #E07A2F;
+      --sidew: 260px;
+      --icon-color: #433222;
+    }
+
+    body.dark {
+      --bgColor: #121211;
+      --mainColor: #EEE7D4;
+      --textColor: #EEE7D4;
+      --textWhy: #E4CAAE;
+      --cardBg: #191918;
+      --faqOpenbg: #252525;
+      --navBorderColor: var(--mainColor);
+      --indicatorBg: var(--mainColor);
+      --iconActive: #FCF4E3;
+      --iconInactive: black;
+      --borderColor: rgba(238, 231, 212, 0.1);
+      --inputBg: #2A2925;
+      --inGam: #2A2925;
+      --sidebarBg: #161615;
+      --userNameColor: var(--mainColor);
+      --icon-color: #EEE7D4;
+    }
+
+    @font-face {
+      font-family: 'Doran';
+      src: url('resource/fonts/Doran-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--mainFont);
+      background: var(--bgColor);
+      color: var(--textColor);
+      min-height: 100vh;
+      direction: rtl;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .layout {
+      display: flex;
+      font-family: var(--mainFont);
+      min-height: calc(100vh);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidew);
+      height: 100%;
+      background: var(--sidebarBg);
+      border-left: 1px solid var(--navBorderColor);
+      font-family: var(--secFont);
+      position: fixed;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 8px 20px 10px;
+    }
+
+    .logo-mark {
+      width: 100%;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .logo-dark {
+      display: none;
+    }
+
+    body.dark .logo-light {
+      display: none;
+    }
+
+    body.dark .logo-dark {
+      display: block;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: var(--textWhy);
+      font-size: 18px;
+      font-weight: 500;
+      transition: all 0.2s;
+      position: relative;
+      user-select: none;
+    }
+
+    .last {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 20px;
+      cursor: pointer;
+      color: rgb(255, 0, 0);
+      font-size: 18px;
+      font-weight: 500;
+      transition: all 0.2s;
+      position: relative;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      color: var(--mainColor);
+      background: var(--bgColor);
+    }
+
+    .nav-item.active {
+      color: var(--mainColor);
+      background: var(--bgColor);
+      font-weight: 700;
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      bottom: 4px;
+      width: 3px;
+      background: var(--mainColor);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .nav-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--navBorderColor);
+      margin: 6px 20px;
+    }
+
+    .sidebar-footer {
+      padding: 14px 18px;
+      border-top: 1px solid var(--navBorderColor);
+    }
+
+    .charity-card {
+      background: var(--inputBg);
+      border-radius: 12px;
+      padding: 12px;
+      color: var(--mainColor);
+      font-size: 16px;
+      line-height: 1.6;
+      width: 100%;
+      position: relative;
+    }
+
+    .charity-card .img-logoooo {
+      display: flex;
+      justify-content: end;
+      width: 36px;
+      height: 36px;
+      border-radius: 7px;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    .charity-card div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .charity-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 7px;
+    }
+
+    .charity-logo img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .charity-btn {
+      margin-top: 8px;
+      background-color: var(--mainColor);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: var(--bgColor);
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 11.5px;
+      font-family: var(--mainFont);
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    /* MAIN */
+    .main {
+      margin-right: var(--sidew);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      background: var(--sidebarBg);
+      border-bottom: 1px solid var(--navBorderColor);
+      padding: 0 28px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      z-index: 50;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 20px;
+      color: var(--textWhy);
+      font-family: var(--secFont);
+    }
+
+    .breadcrumb .current {
+      color: var(--mainColor);
+      font-weight: 600;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mode-switch {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 85px;
+      height: 38px;
+      background: var(--bgColor);
+      border: 1px solid var(--navBorderColor);
+      border-radius: 25px;
+      padding: 0 4px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: 0.4s ease;
+    }
+
+    .mode-indicator {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      background: var(--textColor);
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    body:not(.dark) .mode-indicator {
+      left: calc(100% - 32px - 4px);
+    }
+
+    body.dark .mode-indicator {
+      left: 4px;
+    }
+
+    #moon-icon {
+      color: var(--iconActive);
+      z-index: 20;
+      font-size: 18px;
+      font-weight: bolder;
+      right: 6px;
+    }
+
+    #sun-icon {
+      color: var(--iconInactive);
+      z-index: 20;
+      font-size: 18px;
+      font-weight: bolder;
+      left: 6px;
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      background: var(--inGam);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bgColor);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .user-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--mainColor);
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    /* PAGE */
+    .page {
+      display: none;
+      padding: 32px 28px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--mainColor);
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--textWhy);
+      margin-top: 3px;
+    }
+
+    .page-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 18px 0 24px;
+      flex-direction: row-reverse;
+    }
+
+    .count-badge {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .count-num {
+      font-size: 50px;
+      font-weight: 800;
+      color: var(--mainColor);
+      line-height: 1;
+    }
+
+    .count-label {
+      font-size: 13px;
+      color: var(--textWhy);
+    }
+
+    .btn-add {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--mainColor);
+      cursor: pointer;
+      font-family: var(--mainFont);
+      transition: all 0.2s;
+    }
+
+    .btn-add:hover {
+      background: var(--mainColor);
+      color: var(--bgColor);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--navBorderColor);
+      margin-bottom: 24px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--mainColor);
+      color: var(--bgColor);
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: var(--red);
+    }
+
+    /* ICONS — color inherits from parent or var(--icon-color) */
+    i.hgi {
+      color: inherit;
+    }
+
+    /* ============================================================
+       DASHBOARD CARDS
+       ============================================================ */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 24px;
+    }
+
+    .cat-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 18px;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-card:hover {
+      box-shadow: 0 12px 40px rgba(67, 50, 34, 0.16);
+      transform: translateY(-4px);
+      border-color: transparent;
+    }
+
+    .cat-card-accent {
+      height: 4px;
+      width: 100%;
+      border-radius: 0;
+    }
+
+    .cat-card-inner {
+      padding: 20px 20px 18px;
+    }
+
+    .cat-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .cat-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .cat-count-pill {
+      background: var(--inputBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--textWhy);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .cat-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 4px;
+    }
+
+    .cat-desc {
+      font-size: 12px;
+      color: var(--textWhy);
+      line-height: 1.5;
+    }
+
+    .cat-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--borderColor);
+    }
+
+    .cat-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      color: var(--textWhy);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .cat-card:hover .cat-link {
+      color: var(--mainColor);
+    }
+
+    .cat-arrow {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--inputBg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s;
+      color: var(--textWhy);
+    }
+
+    .cat-card:hover .cat-arrow {
+      background: var(--mainColor);
+      color: var(--bgColor);
+    }
+
+    .cat-count-pill.danger {
+      background: rgba(192, 57, 43, 0.08);
+      border-color: rgba(192, 57, 43, 0.2);
+      color: var(--red);
+    }
+
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      margin-top: 20px;
+      padding-top: 20px;
+
+    }
+
+    .stat-item {
+      text-align: right;
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-num {
+      font-size: 66px;
+      font-weight: 900;
+      color: var(--mainColor);
+      line-height: 1;
+
+    }
+
+    .stat-label {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--textWhy);
+      margin-top: 3px;
+      margin-left: 6px;
+    }
+
+    .stat-sep {
+      width: 1px;
+      height: 46px;
+      background: var(--navBorderColor);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /* تأثير الموجة */
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      transform: scale(0);
+      animation: rippleAnim 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleAnim {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* تأثير نجاح الزر */
+    #renewActivityBtn.success-animation {
+      animation: successPulse 0.4s ease;
+    }
+
+    @keyframes successPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.08);
+        background: linear-gradient(135deg, #43a047, #2e7d32);
+        box-shadow: 0 0 20px rgba(67, 160, 71, 0.6);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* الإشعار المنبثق */
+    .toast-notification {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      z-index: 10000;
+      animation: toastSlideIn 0.3s ease;
+      direction: rtl;
+      border-right: 5px solid #2e7d32;
+    }
+
+    .toast-notification.hide {
+      animation: toastSlideOut 0.3s ease forwards;
+    }
+
+    .toast-icon {
+      font-size: 28px;
+    }
+
+    .toast-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .toast-text small {
+      display: block;
+      font-size: 13px;
+      font-weight: normal;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        top: -80px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.9);
+      }
+
+      to {
+        top: 30px;
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
+    @keyframes toastSlideOut {
+      from {
+        top: 30px;
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+
+      to {
+        top: -80px;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.9);
+      }
+    }
+
+
+
+
+
+
+    /* ===== تنسيق الإحصائيات ===== */
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      margin-top: 20px;
+      padding-top: 20px;
+    }
+
+    .stat-item {
+      text-align: right;
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-num {
+      font-size: 66px;
+      font-weight: 900;
+      color: var(--mainColor);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--textWhy);
+      margin-top: 3px;
+      margin-right: 6px;
+    }
+
+    .stat-sep {
+      width: 1px;
+      height: 46px;
+      background: var(--navBorderColor);
+    }
+
+    /* ===== حاوية الإحصائيات والزر ===== */
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* HEIRS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .heir-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 14px;
+      padding: 18px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .heir-card:hover {
+      box-shadow: var(--shadowHover);
+    }
+
+    .heir-menu {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      color: var(--textWhy);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+    }
+
+    .heir-avatar {
+      width: 74px;
+      height: 74px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--inputBg);
+      font-size: 30px;
+      color: var(--icon-color);
+    }
+
+    .heir-name {
+      text-align: center;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--mainColor);
+    }
+
+    .heir-rel {
+      text-align: center;
+      font-size: 12px;
+      color: var(--textWhy);
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+
+    .heir-info-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11.5px;
+      color: var(--textWhy);
+      margin-bottom: 5px;
+    }
+
+    .heir-info-row i {
+      font-size: 14px;
+      color: var(--icon-color);
+      opacity: 0.7;
+    }
+
+    .heirs-cta-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--mainColor);
+      text-align: center;
+      margin-bottom: 18px;
+      margin-top: 28px;
+    }
+
+    .heirs-cta-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .cta-card {
+      background: var(--inputBg);
+      border-radius: 14px;
+      padding: 22px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cta-card:hover {
+      background: var(--mainColor);
+    }
+
+    .cta-card:hover .cta-title,
+    .cta-card:hover .cta-desc,
+    .cta-card:hover .cta-emoji i {
+      color: var(--bgColor);
+    }
+
+    .cta-emoji {
+      font-size: 26px;
+      margin-bottom: 8px;
+      color: var(--icon-color);
+    }
+
+    .cta-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 5px;
+    }
+
+    .cta-desc {
+      font-size: 12.5px;
+      color: var(--textWhy);
+    }
+
+    /* BANKS */
+    .bank-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .bank-card-visual {
+      border-radius: 14px;
+      height: 190px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+    }
+
+    .bank-card-num {
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 6px;
+    }
+
+    .bank-card-expiry {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .visa-badge {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      font-size: 18px;
+      font-weight: 900;
+      color: white;
+      font-style: italic;
+    }
+
+    .bank-card-info {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .balance-amount {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin: 3px 0 8px;
+    }
+
+    .bank-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--textWhy);
+      padding-top: 8px;
+      border-top: 1px solid var(--borderColor);
+    }
+
+    .bank-meta i {
+      font-size: 14px;
+      color: var(--icon-color);
+      opacity: 0.7;
+    }
+
+    .account-type-badge {
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border-radius: 16px;
+      padding: 3px 10px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--textWhy);
+      font-size: 16px;
+      padding: 3px;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      color: var(--mainColor);
+    }
+
+    .icon-btn.del {
+      color: var(--red);
+    }
+
+    /* VALUABLES */
+    .val-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .val-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .val-card:hover {
+      box-shadow: var(--shadowHover);
+      transform: translateY(-2px);
+    }
+
+    .val-img {
+      width: 100%;
+      height: 170px;
+      background: var(--inputBg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--icon-color);
+    }
+
+    .val-card-actions {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      right: 9px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .val-action-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--mainColor);
+      transition: all 0.2s;
+    }
+
+    body.dark .val-action-btn {
+      background: rgba(30, 30, 28, 0.9);
+      color: var(--mainColor);
+    }
+
+    .val-action-btn.del {
+      background: rgba(192, 57, 43, 0.9);
+      color: white;
+    }
+
+    .val-info {
+      padding: 12px;
+    }
+
+    .val-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 7px;
+    }
+
+    .val-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--textWhy);
+      margin-bottom: 4px;
+    }
+
+    .val-meta-row i {
+      font-size: 14px;
+      color: var(--icon-color);
+      opacity: 0.7;
+    }
+
+    /* DEBTS */
+    .debt-section {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .alert-banner {
+      background: rgba(224, 122, 47, 0.1);
+      border: 1px solid rgba(224, 122, 47, 0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .alert-banner i {
+      color: #E07A2F;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .alert-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #E07A2F;
+      margin-bottom: 2px;
+    }
+
+    .alert-text {
+      font-size: 12.5px;
+      color: var(--textWhy);
+    }
+
+    .debt-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      transition: all 0.25s;
+      position: relative;
+    }
+
+    .debt-card:hover {
+      box-shadow: 0 8px 32px rgba(224, 122, 47, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .debt-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--orange), #c0392b);
+      border-radius: 0 18px 18px 0;
+    }
+
+    .debt-card-content {
+      padding: 22px 26px 22px 22px;
+    }
+
+    .debt-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .debt-head-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .debt-creditor-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 13px;
+      background: rgba(224, 122, 47, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      color: var(--orange);
+    }
+
+    .debt-creditor-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 3px;
+    }
+
+    .debt-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(224, 122, 47, 0.1);
+      color: var(--orange);
+      border: 1px solid rgba(224, 122, 47, 0.25);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .debt-card-btns {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .debt-action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--inputBg);
+      border: 1px solid var(--borderColor);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.18s;
+      color: var(--textWhy);
+    }
+
+    .debt-action-btn:hover {
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border-color: var(--mainColor);
+    }
+
+    .debt-action-btn.del:hover {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .debt-amounts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .debt-amount-box {
+      background: var(--inputBg);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .debt-amount-label {
+      font-size: 11px;
+      color: var(--textWhy);
+      margin-bottom: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .debt-amount-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--mainColor);
+      line-height: 1;
+    }
+
+    .debt-amount-val.danger {
+      color: #c0392b;
+    }
+
+    .debt-progress-wrap {
+      margin-bottom: 16px;
+    }
+
+    .debt-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      color: var(--textWhy);
+      margin-bottom: 7px;
+    }
+
+    .debt-progress-bar {
+      height: 6px;
+      background: var(--inputBg);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .debt-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), #c0392b);
+      border-radius: 10px;
+      transition: width 0.6s ease;
+    }
+
+    .debt-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--borderColor);
+    }
+
+    .debt-due-date {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--textWhy);
+    }
+
+    .debt-due-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--inputBg);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--icon-color);
+    }
+
+    .sharia-banner {
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12.5px;
+      line-height: 1.7;
+    }
+
+    .sharia-banner i {
+      color: var(--bgColor);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .sharia-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    /* REAL ESTATE */
+    .prop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .prop-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .prop-card:hover {
+      box-shadow: var(--shadowHover);
+    }
+
+    .prop-img {
+      width: 100%;
+      height: 190px;
+      background: var(--inputBg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--icon-color);
+    }
+
+    .prop-card-actions {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      display: flex;
+      gap: 7px;
+    }
+
+    .prop-info {
+      padding: 14px;
+    }
+
+    .prop-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 10px;
+    }
+
+    .prop-detail {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      color: var(--textWhy);
+      margin-bottom: 6px;
+    }
+
+    .prop-detail i {
+      font-size: 14px;
+      color: var(--icon-color);
+      opacity: 0.7;
+    }
+
+    /* MESSAGES PAGE */
+    .msg-intro-banner {
+      background: linear-gradient(135deg, rgba(67, 50, 34, 0.07), rgba(67, 50, 34, 0.03));
+      border: 1px solid var(--borderColor);
+      border-radius: 14px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .msg-intro-icon {
+      font-size: 32px;
+      flex-shrink: 0;
+      line-height: 1;
+      color: var(--icon-color);
+    }
+
+    .msg-intro-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 4px;
+    }
+
+    .msg-intro-text {
+      font-size: 12.5px;
+      color: var(--textWhy);
+      line-height: 1.8;
+    }
+
+    .msg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .msg-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.22s;
+      position: relative;
+    }
+
+    .msg-card:hover {
+      box-shadow: var(--shadowHover);
+      transform: translateY(-2px);
+    }
+
+    .msg-card-header {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--borderColor);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .msg-card-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--mainColor), transparent);
+      opacity: 0.25;
+    }
+
+    .msg-envelope-icon {
+      width: 46px;
+      height: 46px;
+      background: var(--inputBg);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      color: var(--icon-color);
+    }
+
+    .msg-recipient-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--mainColor);
+    }
+
+    .msg-recipient-rel {
+      font-size: 11.5px;
+      color: var(--textWhy);
+      margin-top: 2px;
+    }
+
+    .msg-card-actions-top {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .msg-card-body {
+      padding: 16px;
+    }
+
+    .msg-subject {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 8px;
+    }
+
+    .msg-preview {
+      font-size: 12.5px;
+      color: var(--textWhy);
+      line-height: 1.75;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .msg-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--borderColor);
+    }
+
+    .msg-delivery-badge {
+      background: rgba(67, 50, 34, 0.09);
+      color: var(--mainColor);
+      border-radius: 16px;
+      padding: 3px 10px;
+      font-size: 10.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .msg-delivery-badge i {
+      font-size: 12px;
+    }
+
+    .msg-date {
+      font-size: 11px;
+      color: var(--textWhy);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .msg-date i {
+      font-size: 12px;
+      color: var(--icon-color);
+      opacity: 0.6;
+    }
+
+    .msg-view-btn {
+      background: transparent;
+      border: none;
+      color: var(--textWhy);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--mainFont);
+      transition: color 0.2s;
+      padding: 0;
+    }
+
+    .msg-view-btn:hover {
+      color: var(--mainColor);
+    }
+
+    .msg-attach-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--inputBg);
+      border-radius: 8px;
+      padding: 2px 7px;
+      font-size: 10px;
+      color: var(--textWhy);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .msg-attach-badge i {
+      font-size: 11px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--textWhy);
+    }
+
+    .empty-state-icon {
+      font-size: 52px;
+      margin-bottom: 14px;
+      opacity: 0.5;
+      color: var(--icon-color);
+    }
+
+    .empty-state-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 6px;
+    }
+
+    .empty-state-text {
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* Message view overlay */
+    .msg-view-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      z-index: 400;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .msg-view-overlay.open {
+      display: flex;
+    }
+
+    .msg-view-box {
+      background: var(--cardBg);
+      border-radius: 20px;
+      padding: 32px 28px;
+      width: 560px;
+      max-width: 92vw;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.22s ease;
+      border: 1px solid var(--borderColor);
+    }
+
+    .msg-view-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: var(--inputBg);
+      border: 1px solid var(--borderColor);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--mainColor);
+    }
+
+    .msg-view-from {
+      font-size: 11.5px;
+      color: var(--textWhy);
+      margin-bottom: 4px;
+    }
+
+    .msg-view-recipient {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 6px;
+    }
+
+    .msg-view-subject {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--borderColor);
+    }
+
+    .msg-view-body {
+      font-size: 14px;
+      color: var(--textColor);
+      line-height: 2.0;
+      white-space: pre-wrap;
+    }
+
+    .msg-view-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--borderColor);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* MEMORIES PAGE */
+    .mem-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .mem-filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      color: var(--textWhy);
+      font-size: 12.5px;
+      font-family: var(--mainFont);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mem-filter-btn i {
+      font-size: 14px;
+    }
+
+    .mem-filter-btn.active {
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border-color: var(--mainColor);
+    }
+
+    .mem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .mem-card {
+      background: var(--cardBg);
+      border: 1px solid var(--borderColor);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.22s;
+      position: relative;
+    }
+
+    .mem-card:hover {
+      box-shadow: var(--shadowHover);
+      transform: translateY(-2px);
+    }
+
+    .mem-img-wrap {
+      width: 100%;
+      height: 185px;
+      background: var(--inputBg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+      overflow: hidden;
+      color: var(--icon-color);
+    }
+
+    .mem-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mem-type-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.55);
+      color: white;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .mem-card-actions {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .mem-info {
+      padding: 14px;
+    }
+
+    .mem-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--mainColor);
+      margin-bottom: 6px;
+    }
+
+    .mem-text-preview {
+      font-size: 12.5px;
+      color: var(--textWhy);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .mem-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--borderColor);
+    }
+
+    .mem-date {
+      font-size: 11px;
+      color: var(--textWhy);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mem-date i {
+      font-size: 12px;
+      color: var(--icon-color);
+      opacity: 0.6;
+    }
+
+    .mem-view-btn {
+      background: transparent;
+      border: none;
+      color: var(--textWhy);
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--mainFont);
+      transition: color 0.2s;
+    }
+
+    .mem-view-btn:hover {
+      color: var(--mainColor);
+    }
+
+    /* Memory view overlay */
+    .mem-view-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      z-index: 400;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mem-view-overlay.open {
+      display: flex;
+    }
+
+    .mem-view-box {
+      background: var(--cardBg);
+      border-radius: 20px;
+      width: 600px;
+      max-width: 92vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      animation: modalIn 0.22s ease;
+      border: 1px solid var(--borderColor);
+    }
+
+    .mem-view-img {
+      width: 100%;
+      height: 250px;
+      background: var(--inputBg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      overflow: hidden;
+      color: var(--icon-color);
+    }
+
+    .mem-view-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mem-view-content {
+      padding: 24px 28px;
+    }
+
+    .mem-view-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: white;
+      z-index: 10;
+    }
+
+    .mem-view-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 6px;
+    }
+
+    .mem-view-meta {
+      font-size: 12px;
+      color: var(--textWhy);
+      margin-bottom: 18px;
+    }
+
+    .mem-view-body {
+      font-size: 14px;
+      color: var(--textColor);
+      line-height: 2.0;
+      white-space: pre-wrap;
+    }
+
+    /* TYPE TABS */
+    .type-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .type-tab {
+      flex: 1;
+      padding: 8px;
+      border-radius: 9px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      color: var(--textWhy);
+      font-size: 13px;
+      font-family: var(--mainFont);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .type-tab i {
+      font-size: 16px;
+    }
+
+    .type-tab.active {
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border-color: var(--mainColor);
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-family: var(--mainFont);
+      color: var(--textColor);
+      text-align: right;
+      outline: none;
+      transition: border 0.2s;
+      direction: rtl;
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-textarea:focus {
+      border-color: var(--mainColor);
+    }
+
+    .form-textarea::placeholder {
+      color: var(--textWhy);
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--cardBg);
+      border: 2px solid var(--red);
+      border-radius: 18px;
+      padding: 28px;
+      width: 480px;
+      max-width: 92vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.22s ease;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: var(--inputBg);
+      border: 1px solid var(--borderColor);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--mainColor);
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--borderColor);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-zone:hover {
+      border-color: var(--mainColor);
+      background: var(--inputBg);
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 6px;
+      color: var(--mainColor);
+    }
+
+    .upload-text {
+      font-size: 13px;
+      color: var(--textWhy);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-family: var(--mainFont);
+      color: var(--textColor);
+      text-align: right;
+      outline: none;
+      transition: border 0.2s;
+      direction: rtl;
+    }
+
+    .form-input:focus {
+      border-color: var(--mainColor);
+    }
+
+    .form-input::placeholder {
+      color: var(--textWhy);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 11px;
+    }
+
+    .form-group {
+      margin-bottom: 11px;
+    }
+
+    .form-select {
+      padding: 11px 14px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-family: var(--mainFont);
+      color: var(--textColor);
+      direction: rtl;
+      cursor: pointer;
+      outline: none;
+      width: 100%;
+    }
+
+    .date-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 11px;
+    }
+
+    .date-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--mainColor);
+      white-space: nowrap;
+    }
+
+    .eye-input {
+      position: relative;
+    }
+
+    .eye-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--textWhy);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-submit {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--mainColor);
+      color: var(--bgColor);
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      font-family: var(--mainFont);
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.85;
+    }
+
+    /* CONFIRM */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .confirm-overlay.open {
+      display: flex;
+    }
+
+    .confirm-box {
+      background: var(--cardBg);
+      border-radius: 16px;
+      padding: 28px;
+      width: 360px;
+      max-width: 90vw;
+      text-align: center;
+      animation: modalIn 0.2s ease;
+    }
+
+    .confirm-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: var(--red);
+    }
+
+    .confirm-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 6px;
+    }
+
+    .confirm-desc {
+      font-size: 13px;
+      color: var(--textWhy);
+      margin-bottom: 20px;
+    }
+
+    .confirm-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 10px;
+      border-radius: 9px;
+      background: var(--inputBg);
+      border: 1.5px solid var(--borderColor);
+      color: var(--mainColor);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--mainFont);
+      cursor: pointer;
+    }
+
+    .btn-confirm-del {
+      flex: 1;
+      padding: 10px;
+      border-radius: 9px;
+      background: var(--red);
+      border: none;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--mainFont);
+      cursor: pointer;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--borderColor);
+      border-radius: 3px;
+    }
+  </style>
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") document.documentElement.classList.add("dark");
+    })();
+  </script>
+</head>
+
+<body>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+      <div class="confirm-icon"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></div>
+      <div class="confirm-title">تأكيد الحذف</div>
+      <div class="confirm-desc">هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.</div>
+      <div class="confirm-btns">
+        <button class="btn-confirm-del" id="confirm-del-btn">حذف</button>
+        <button class="btn-cancel" onclick="closeConfirm()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="msg-view-overlay" id="msg-view-overlay" onclick="if(event.target===this)closeMsgView()">
+    <div class="msg-view-box">
+      <button class="msg-view-close" onclick="closeMsgView()"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <div style="margin-bottom:6px;display:flex;align-items:center;gap:10px;">
+        <div style="font-size:28px;color:var(--icon-color);"><i class="hgi hgi-stroke hgi-rounded hgi-mail-01"></i>
+        </div>
+        <div>
+          <div class="msg-view-from">إلى:</div>
+          <div class="msg-view-recipient" id="mv-recipient"></div>
+        </div>
+      </div>
+      <div class="msg-view-subject" id="mv-subject"></div>
+      <div class="msg-view-body" id="mv-body"></div>
+      <div class="msg-view-footer">
+        <div style="font-size:11.5px;color:var(--textWhy);display:flex;align-items:center;gap:4px;" id="mv-delivery">
+        </div>
+        <div style="font-size:11.5px;color:var(--textWhy);display:flex;align-items:center;gap:4px;" id="mv-date"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mem-view-overlay" id="mem-view-overlay" onclick="if(event.target===this)closeMemView()">
+    <div class="mem-view-box">
+      <button class="mem-view-close" onclick="closeMemView()"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <div class="mem-view-img" id="mv-mem-img"></div>
+      <div class="mem-view-content">
+        <div class="mem-view-title" id="mv-mem-title"></div>
+        <div class="mem-view-meta" id="mv-mem-meta"></div>
+        <div class="mem-view-body" id="mv-mem-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">
+          <img src="resource/imgs/logo.svg" alt="إرث" class="logo-light">
+          <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark">
+        </div>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item active" data-page="dashboard"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-home-04"></i></span> لوحة التحكم</div>
+        <div class="nav-item" data-page="real-estate"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-city-01"></i></span> العقارات</div>
+        <div class="nav-item" data-page="banks"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-bank"></i></span> حسابات بنكية</div>
+        <div class="nav-item" data-page="valuables"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-money-bag-02"></i></span> الممتلكات الثمينة</div>
+        <div class="nav-item" data-page="debts"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-information-square"></i></span> ديون والالتزامات</div>
+        <div class="nav-item" data-page="heirs"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-user-group"></i></span> الورثة</div>
+        <div class="nav-divider"></div>
+        <div class="nav-item" data-page="messages"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-mail-open-love"></i></span> رسائل عبر الزمن</div>
+        <div class="nav-item" data-page="memories"><span class="nav-icon"><i
+              class="hgi hgi-stroke hgi-rounded hgi-notebook-02"></i></span> ذكريات</div>
+        <div class="last">
+          <span class="nav-icon"><i class="hgi hgi-stroke hgi-rounded hgi-login-02"></i></span>
+          <p class="logout-btn" id="logoutBtn">تسجيل الخروج</p>
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="charity-card">
+          <div class="charity-logo"><img src="resource/imgs/Group 93.svg" alt="جمعية الباقيات الصالحات"></div>
+          <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark img-logoooo">
+          <img src="resource/imgs/logo.svg" alt="إرث" class="logo-light img-logoooo">
+          <div style="font-weight:700;">جمعية الباقيات الصالحات</div>
+          <div style="opacity:0.8;font-size:11px;">إرث من الرحمة ..لا يمحوه النسيان</div>
+          <a style="text-decoration: none" href="https://albaqyatalsalehat.net/contact.php" target="_blank"> <button
+              class="charity-btn">
+              <i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01" style="font-size:13px;"></i>
+              تواصل من هنا
+            </button></a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>لوحة التحكم</span><span style="opacity:0.4;">›</span>
+          <span class="current" id="breadcrumb-current">لوحة التحكم</span>
+        </div>
+        <div class="topbar-left">
+          <div class="mode-switch-wrapper rtl">
+            <div class="mode-switch" onclick="toggleMode()">
+              <div class="mode-indicator"></div>
+              <i id="moon-icon" class="hgi hgi-stroke hgi-rounded hgi-moon-02"></i>
+              <i id="sun-icon" class="hgi hgi-stroke hgi-rounded hgi-sun-03"></i>
+            </div>
+          </div>
+          <div class="user-avatar">
+            <div class="avatar" id="avatar"></div>
+          </div>
+          <span class="user-name">
+            <div class="user-name" id="userName"></div>
+          </span>
+        </div>
+      </header>
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <div style="margin-bottom:2px;">
+          <div style="font-size:38px;font-weight:800;color:var(--mainColor);">مرحباً بك في مكتبك الرقمي</div>
+          <div style="font-size:15px;color:var(--textWhy);margin-top:5px;max-width:560px;">وثّق ممتلكاتك وحافظ على إرثك
+            بشكل منظم واحترافي. جميع بياناتك محفوظة بشكل آمن.</div>
+        </div>
+
+        <div class="stats-container">
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-label">إجمالي الممتلكات</div>
+              <div class="stat-num" id="dash-total-assets">0</div>
+            </div>
+            <div class="stat-sep"></div>
+            <div class="stat-item">
+              <div class="stat-label">الفئات المسجلة</div>
+              <div class="stat-num" id="dash-categories">0</div>
+            </div>
+            <div class="stat-sep"></div>
+            <div class="stat-item">
+              <div class="stat-label">عدد الورثة</div>
+              <div class="stat-num" id="dash-heirs">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:22px;"></div>
+
+        <div class="categories-grid">
+
+          <div class="cat-card" onclick="showPage('real-estate')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1);"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-city-01"></i></div>
+                <div class="cat-count-pill" id="cat-count-re">0 عنصر</div>
+              </div>
+              <div class="cat-name">العقارات</div>
+              <div class="cat-desc">شقق، أراضي، محلات تجارية</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('banks')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-bank"></i></div>
+                <div class="cat-count-pill" id="cat-count-banks">0 عنصر</div>
+              </div>
+              <div class="cat-name">البنوك والاستثمارات</div>
+              <div class="cat-desc">حسابات بنكية، أسهم، استثمارات</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('valuables')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-money-bag-02"></i></div>
+                <div class="cat-count-pill" id="cat-count-val">0 عنصر</div>
+              </div>
+              <div class="cat-name">الممتلكات الثمينة</div>
+              <div class="cat-desc">مجوهرات، ساعات، مقتنيات</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('debts')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-information-square"></i></div>
+                <div class="cat-count-pill danger" id="cat-count-debts">0 عنصر</div>
+              </div>
+              <div class="cat-name">الديون والالتزامات</div>
+              <div class="cat-desc">قروض، أقساط، التزامات مالية</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('heirs')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-user-group"></i></div>
+                <div class="cat-count-pill" id="cat-count-heirs">0 عنصر</div>
+              </div>
+              <div class="cat-name">الورثة</div>
+              <div class="cat-desc">إدارة بيانات الورثة</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('messages')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-mail-open-love"></i></div>
+                <div class="cat-count-pill" id="cat-count-messages">0 عنصر</div>
+              </div>
+              <div class="cat-name">رسائل عبر الزمن</div>
+              <div class="cat-desc">رسائل ستُسلَّم لأحبائك بعد الغياب</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cat-card" onclick="showPage('memories')">
+            <div class="cat-card-accent"></div>
+            <div class="cat-card-inner">
+              <div class="cat-card-top">
+                <div class="cat-icon-wrap" style="background: rgba(240, 181, 17, 0.1)"><i
+                    class="hgi hgi-stroke hgi-rounded hgi-notebook-02"></i></div>
+                <div class="cat-count-pill" id="cat-count-memories">0 عنصر</div>
+              </div>
+              <div class="cat-name">الذكريات</div>
+              <div class="cat-desc">صور، قصص، ولحظات للأجيال</div>
+              <div class="cat-card-footer">
+                <span class="cat-link">عرض التفاصيل</span>
+                <div class="cat-arrow"><i class="hgi hgi-stroke hgi-rounded hgi-arrow-left-01"></i></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /page-dashboard -->
+
+      <!-- HEIRS PAGE -->
+      <div class="page" id="page-heirs">
+        <div class="page-title">الورثة</div>
+        <div class="page-subtitle">قم بأضافة عائلتك</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="heirs-count">0</div>
+            <div class="count-label">إجمالي الورثة</div>
+          </div>
+          <button class="btn-add" onclick="openModal('heir-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة وريث
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="cards-grid" id="heirs-list"></div>
+        <div class="heirs-cta-title">هل تحب أن تترك أثراً لمن بعدك ؟</div>
+        <div class="heirs-cta-cards">
+          <div class="cta-card" onclick="showPage('messages')">
+            <div class="cta-emoji"><i class="hgi hgi-stroke hgi-rounded hgi-mail-open-love"></i></div>
+            <div class="cta-title">اترك رسالة لمن تحب</div>
+            <div class="cta-desc">يمكنك كتابة رسالة الان ليتم تسليمها لأحبائك، حتى بعد غيابك.</div>
+          </div>
+          <div class="cta-card" onclick="showPage('memories')">
+            <div class="cta-emoji"><i class="hgi hgi-stroke hgi-rounded hgi-notebook-02"></i></div>
+            <div class="cta-title">احفظ ذكرياتك للأبد</div>
+            <div class="cta-desc">شارك صورك وقصصك وذكرياتك لتبقى أثرك حاضراً مع من تحب.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BANKS PAGE -->
+      <div class="page" id="page-banks">
+        <div class="page-title">البنوك والأستثمارات</div>
+        <div class="page-subtitle">حسابات بنكية، أسهم، استثمارات</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="banks-count">0</div>
+            <div class="count-label">إجمالي الحسابات</div>
+          </div>
+          <button class="btn-add" onclick="openModal('bank-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة حساب
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="bank-cards-grid" id="banks-list"></div>
+      </div>
+
+      <!-- VALUABLES PAGE -->
+      <div class="page" id="page-valuables">
+        <div class="page-title">الممتلكات الثمينة</div>
+        <div class="page-subtitle">مجوهرات، ساعات، مقتنيات</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="valuables-count">0</div>
+            <div class="count-label">إجمالي الممتلكات</div>
+          </div>
+          <button class="btn-add" onclick="openModal('valuable-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="val-grid" id="valuables-list"></div>
+      </div>
+
+      <!-- DEBTS PAGE -->
+      <div class="page" id="page-debts">
+        <div class="page-title">الديون والالتزامات</div>
+        <div class="page-subtitle">قروض، أقساط، التزامات مالية</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="debts-count">0</div>
+            <div class="count-label">إجمالي الديون</div>
+          </div>
+          <button class="btn-add" onclick="openModal('debt-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة دين
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="debt-section">
+          <div class="alert-banner">
+            <i class="hgi hgi-stroke hgi-rounded hgi-alert-02"></i>
+            <div>
+              <div class="alert-title">أهمية توثيق الديون</div>
+              <div class="alert-text">توثيق الديون والالتزامات المالية يساعد الورثة على إبراء ذمتك وتسوية الحسابات بشكل
+                صحيح شرعاً وقانوناً.</div>
+            </div>
+          </div>
+          <div id="debts-list"></div>
+          <div class="sharia-banner">
+            <i class="hgi hgi-stroke hgi-rounded hgi-bookmark-02"></i>
+            <div>
+              <div class="sharia-title">توجيه شرعي</div>
+              من السنة المستحبة أن يوصي المسلم بديونه على الناس عليه، حتى قبل توزيع الميراث. فقد قال النبي ﷺ: "نفس
+              المؤمن معلقة بدينه حتى يُقضى عنه".
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REAL ESTATE PAGE -->
+      <div class="page" id="page-real-estate">
+        <div class="page-title">العقارات</div>
+        <div class="page-subtitle">إدارة الشقق، الأراضي، والمحلات التجارية</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="re-count">0</div>
+            <div class="count-label">إجمالي العقارات</div>
+          </div>
+          <button class="btn-add" onclick="openModal('realestate-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة عقار
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="prop-grid" id="re-list"></div>
+      </div>
+
+      <!-- MESSAGES PAGE -->
+      <div class="page" id="page-messages">
+        <div class="page-title">رسائل عبر الزمن</div>
+        <div class="page-subtitle">كلمات ستبقى حاضرة حتى بعد غيابك</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="messages-count">0</div>
+            <div class="count-label">إجمالي الرسائل</div>
+          </div>
+          <button class="btn-add" onclick="openMessageModal()">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> كتابة رسالة
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="msg-intro-banner">
+          <div class="msg-intro-icon"><i class="hgi hgi-stroke hgi-rounded hgi-mail-02"></i></div>
+          <div>
+            <div class="msg-intro-title">ما هي رسائل عبر الزمن؟</div>
+            <div class="msg-intro-text">اكتب رسائل مؤثرة لأحبائك الآن، وستُسلَّم إليهم في الوقت المحدد بعد غيابك. كلمات
+              تعيش في القلوب وتحمل أثرك الخالد.</div>
+          </div>
+        </div>
+        <div class="msg-grid" id="messages-list"></div>
+      </div>
+
+      <!-- MEMORIES PAGE -->
+      <div class="page" id="page-memories">
+        <div class="page-title">ذكرياتي</div>
+        <div class="page-subtitle">احفظ لحظاتك وقصصك للأجيال القادمة</div>
+        <div class="page-actions">
+          <div class="count-badge">
+            <div class="count-num" id="memories-count">0</div>
+            <div class="count-label">إجمالي الذكريات</div>
+          </div>
+          <button class="btn-add" onclick="openModal('memory-modal')">
+            <i class="hgi hgi-stroke hgi-rounded hgi-add-01" style="font-size:18px;"></i> إضافة ذكرى
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="mem-filters" id="mem-filters">
+          <button class="mem-filter-btn active" onclick="filterMemories('all',this)">الكل</button>
+          <button class="mem-filter-btn" onclick="filterMemories('نص',this)"><i
+              class="hgi hgi-stroke hgi-rounded hgi-book-02"></i> نصوص</button>
+          <button class="mem-filter-btn" onclick="filterMemories('صورة',this)"><i
+              class="hgi hgi-stroke hgi-rounded hgi-image-01"></i> صور</button>
+          <button class="mem-filter-btn" onclick="filterMemories('نص وصورة',this)"><i
+              class="hgi hgi-stroke hgi-rounded hgi-image-01"></i> نص وصورة</button>
+        </div>
+        <div class="mem-grid" id="memories-list"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ========== MODALS ========== -->
+
+  <!-- HEIR MODAL -->
+  <div class="modal-overlay" id="heir-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('heir-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="heir-edit-id" value="">
+      <div class="upload-zone" id="heir-upload-zone" onclick="document.getElementById('heir-photo-input').click()">
+        <div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div>
+        <div class="upload-text">اسحب وأفلت أو اختر صورة</div>
+      </div>
+      <input type="file" id="heir-photo-input" accept="image/*" style="display:none"
+        onchange="previewUpload(this,'heir-upload-zone')">
+      <div class="form-group"><input class="form-input" id="heir-name" placeholder="اسم الوريث" type="text"></div>
+      <div class="form-row">
+        <input class="form-input" id="heir-relation" placeholder="صلة القرابة">
+        <input class="form-input" id="heir-phone" placeholder="رقم الهاتف">
+      </div>
+      <div class="form-group"><input class="form-input" id="heir-email" placeholder="البريد الالكتروني" type="email">
+      </div>
+      <button class="btn-submit" onclick="mockSubmit('heir-modal','heir','الورثة','heirs-count',renderHeirs)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span id="heir-submit-text">حفظ الوريث</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- BANK MODAL -->
+  <div class="modal-overlay" id="bank-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('bank-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="bank-edit-id" value="">
+      <div class="upload-zone" id="bank-upload-zone" onclick="document.getElementById('bank-photo-input').click()">
+        <div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div>
+        <div class="upload-text">اسحب وأفلت أو اختر صورة</div>
+      </div>
+      <input type="file" id="bank-photo-input" accept="image/*" style="display:none"
+        onchange="previewUpload(this,'bank-upload-zone')">
+      <div class="form-group"><input class="form-input" id="bank-name" placeholder="اسم البنك"></div>
+      <div class="form-group eye-input">
+        <input class="form-input" id="bank-account-num" placeholder="رقم الحساب" type="password"
+          style="padding-left:40px;">
+        <span class="eye-icon" onclick="togglePwd('bank-account-num',this)"><i
+            class="hgi hgi-stroke hgi-rounded hgi-view"></i></span>
+      </div>
+      <div class="form-row">
+        <select class="form-select" id="bank-type">
+          <option value="">نوع الحساب</option>
+          <option>حساب جاري</option>
+          <option>حساب توفير</option>
+          <option>استثمار</option>
+          <option>أسهم</option>
+        </select>
+        <input class="form-input" id="bank-balance" placeholder="الرصيد" type="number">
+      </div>
+      <div class="date-row">
+        <select class="form-select" id="bank-exp-month" style="flex:1;">
+          <option value="">شهر</option>
+          <script>for (let y = 1; y <= 12; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <select class="form-select" id="bank-exp-year" style="flex:1;">
+          <option value="">سنة</option>
+          <script>for (let y = 2025; y <= 2040; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <div class="date-label">تاريخ الانتهاء</div>
+      </div>
+      <button class="btn-submit" onclick="mockSubmit('bank-modal','bank','البنوك','banks-count',renderBanks)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span>حفظ الحساب</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- VALUABLE MODAL -->
+  <div class="modal-overlay" id="valuable-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('valuable-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="val-edit-id" value="">
+      <div class="upload-zone" id="val-upload-zone" onclick="document.getElementById('val-photo-input').click()">
+        <div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div>
+        <div class="upload-text">اسحب وأفلت أو اختر صورة</div>
+      </div>
+      <input type="file" id="val-photo-input" accept="image/*" style="display:none"
+        onchange="previewUpload(this,'val-upload-zone')">
+      <div class="form-group"><input class="form-input" id="val-name" placeholder="اسم الممتلك"></div>
+      <div class="date-row">
+        <select class="form-select" id="val-day" style="flex:1;">
+          <option value="">يوم</option>
+          <script>for (let d = 1; d <= 31; d++)document.write(`<option>${d}</option>`)</script>
+        </select>
+        <select class="form-select" id="val-month" style="flex:1;">
+          <option value="">شهر</option>
+          <script>for (let m = 1; m <= 12; m++)document.write(`<option>${m}</option>`)</script>
+        </select>
+        <select class="form-select" id="val-year" style="flex:1;">
+          <option value="">سنة</option>
+          <script>for (let y = 1990; y <= 2030; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <div class="date-label">تاريخ الشراء</div>
+      </div>
+      <div class="form-group"><input class="form-input" id="val-value" placeholder="القيمة التقريبية" type="number">
+      </div>
+      <button class="btn-submit"
+        onclick="mockSubmit('valuable-modal','val','الممتلكات','valuables-count',renderValuables)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span>حفظ الممتلك</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- DEBT MODAL -->
+  <div class="modal-overlay" id="debt-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('debt-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="debt-edit-id" value="">
+      <div class="form-group"><input class="form-input" id="debt-creditor" placeholder="اسم الدائن"></div>
+      <div class="date-row">
+        <select class="form-select" id="debt-day" style="flex:1;">
+          <option value="">يوم</option>
+          <script>for (let d = 1; d <= 31; d++)document.write(`<option>${d}</option>`)</script>
+        </select>
+        <select class="form-select" id="debt-month" style="flex:1;">
+          <option value="">شهر</option>
+          <script>for (let m = 1; m <= 12; m++)document.write(`<option>${m}</option>`)</script>
+        </select>
+        <select class="form-select" id="debt-year" style="flex:1;">
+          <option value="">سنة</option>
+          <script>for (let y = 2024; y <= 2040; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <div class="date-label">تاريخ الاستحقاق</div>
+      </div>
+      <div class="form-row">
+        <input class="form-input" id="debt-installment" placeholder="القسط الشهري" type="number">
+        <select class="form-select" id="debt-type">
+          <option value="">نوع الالتزام</option>
+          <option>قرض شخصي</option>
+          <option>قرض عقاري</option>
+          <option>قرض تجاري</option>
+          <option>بطاقة ائتمان</option>
+        </select>
+      </div>
+      <div class="form-group"><input class="form-input" id="debt-amount" placeholder="المبلغ المستحق" type="number">
+      </div>
+      <button class="btn-submit" onclick="mockSubmit('debt-modal','debt','الديون','debts-count',renderDebts)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span>حفظ الدين</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- REAL ESTATE MODAL -->
+  <div class="modal-overlay" id="realestate-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('realestate-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="re-edit-id" value="">
+      <div class="upload-zone" id="re-upload-zone" onclick="document.getElementById('re-photo-input').click()">
+        <div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div>
+        <div class="upload-text">اسحب وأفلت أو اختر صورة</div>
+      </div>
+      <input type="file" id="re-photo-input" accept="image/*" style="display:none"
+        onchange="previewUpload(this,'re-upload-zone')">
+      <div class="form-group"><input class="form-input" id="re-name" placeholder="اسم العقار"></div>
+      <div class="form-row">
+        <input class="form-input" id="re-address" placeholder="العنوان">
+        <button type="button"
+          style="background:transparent;border:none;color:#3d8ef5;font-size:12.5px;cursor:pointer;font-family:var(--mainFont);display:flex;align-items:center;gap:4px;white-space:nowrap;">
+          <i class="hgi hgi-stroke hgi-rounded hgi-maps-location-01"></i> تحديد على الخريطة
+        </button>
+      </div>
+      <div class="form-row">
+        <input class="form-input" id="re-area" placeholder="المساحة (م²)" type="number">
+        <input class="form-input" id="re-value" placeholder="القيمة التقريبية" type="number">
+      </div>
+      <div class="date-row">
+        <select class="form-select" id="re-day" style="flex:1;">
+          <option value="">يوم</option>
+          <script>for (let d = 1; d <= 31; d++)document.write(`<option>${d}</option>`)</script>
+        </select>
+        <select class="form-select" id="re-month" style="flex:1;">
+          <option value="">شهر</option>
+          <script>for (let m = 1; m <= 12; m++)document.write(`<option>${m}</option>`)</script>
+        </select>
+        <select class="form-select" id="re-year" style="flex:1;">
+          <option value="">سنة</option>
+          <script>for (let y = 1990; y <= 2030; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <div class="date-label">تاريخ الشراء</div>
+      </div>
+      <button class="btn-submit" onclick="mockSubmit('realestate-modal','re','العقارات','re-count',renderRealEstate)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span>حفظ العقار</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MESSAGE MODAL -->
+  <div class="modal-overlay" id="message-modal">
+    <div class="modal" style="border-color: var(--mainColor);">
+      <button class="modal-close" onclick="closeModal('message-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="msg-edit-id" value="">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <div style="font-size:26px;color:var(--icon-color);"><i class="hgi hgi-stroke hgi-rounded hgi-mail-send-01"></i>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--mainColor);">رسالة عبر الزمن</div>
+          <div style="font-size:11.5px;color:var(--textWhy);">ستُحفظ هذه الرسالة وتُسلَّم وفق الشرط الذي تختاره</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <select class="form-select" id="msg-recipient">
+          <option value="">اختر المستلم من قائمة الورثة</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input class="form-input" id="msg-subject" placeholder="موضوع الرسالة (مثل: وصيتي لك يا أحمد)">
+      </div>
+      <div class="form-group">
+        <textarea class="form-textarea" id="msg-body"
+          placeholder="اكتب رسالتك هنا بكل حرية... هذه الكلمات ستبقى حاضرة حتى بعد غيابك."
+          style="min-height:140px;"></textarea>
+      </div>
+      <div class="form-group">
+        <select class="form-select" id="msg-delivery">
+          <option value="بعد الوفاة">تُسلَّم بعد الوفاة</option>
+          <option value="في مناسبة معينة">في مناسبة معينة</option>
+          <option value="في تاريخ محدد">في تاريخ محدد</option>
+        </select>
+      </div>
+      <div class="upload-zone" id="msg-upload-zone" onclick="document.getElementById('msg-photo-input').click()"
+        style="margin-bottom:0;">
+        <div class="upload-icon" style="font-size:24px;"><i class="hgi hgi-stroke hgi-rounded hgi-attachment-02"></i>
+        </div>
+        <div class="upload-text">مرفق اختياري (صورة أو ذكرى)</div>
+      </div>
+      <input type="file" id="msg-photo-input" accept="image/*" style="display:none"
+        onchange="previewUpload(this,'msg-upload-zone');_msgHasAttach=true">
+      <button class="btn-submit" onclick="mockSubmit('message-modal','msg','الرسائل','messages-count',renderMessages)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-mail-send-01"></i>
+        <span>حفظ الرسالة</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MEMORY MODAL -->
+  <div class="modal-overlay" id="memory-modal">
+    <div class="modal" style="border-color: var(--mainColor);">
+      <button class="modal-close" onclick="closeModal('memory-modal')"><i
+          class="hgi hgi-stroke hgi-rounded hgi-cancel-01"></i></button>
+      <input type="hidden" id="mem-edit-id" value="">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+        <div style="font-size:26px;color:var(--icon-color);"><i class="hgi hgi-stroke hgi-rounded hgi-image-02"></i>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:800;color:var(--mainColor);">إضافة ذكرى</div>
+          <div style="font-size:11.5px;color:var(--textWhy);">احفظ لحظة أو قصة للأجيال القادمة</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input class="form-input" id="mem-name" placeholder="عنوان الذكرى (مثل: أول يوم مدرسة لأحمد)">
+      </div>
+      <div class="date-row">
+        <select class="form-select" id="mem-day" style="flex:1;">
+          <option value="">يوم</option>
+          <script>for (let d = 1; d <= 31; d++)document.write(`<option>${d}</option>`)</script>
+        </select>
+        <select class="form-select" id="mem-month" style="flex:1;">
+          <option value="">شهر</option>
+          <script>for (let m = 1; m <= 12; m++)document.write(`<option>${m}</option>`)</script>
+        </select>
+        <select class="form-select" id="mem-year" style="flex:1;">
+          <option value="">سنة</option>
+          <script>for (let y = 1980; y <= 2030; y++)document.write(`<option>${y}</option>`)</script>
+        </select>
+        <div class="date-label">تاريخ الذكرى</div>
+      </div>
+      <input type="hidden" id="mem-type-val" value="نص">
+      <div class="type-tabs">
+        <button class="type-tab active" onclick="setMemType('نص',this)"><i
+            class="hgi hgi-stroke hgi-rounded hgi-quill-write-02"></i> نص</button>
+        <button class="type-tab" onclick="setMemType('صورة',this)"><i
+            class="hgi hgi-stroke hgi-rounded hgi-image-01"></i> صورة</button>
+        <button class="type-tab" onclick="setMemType('نص وصورة',this)"><i
+            class="hgi hgi-stroke hgi-rounded hgi-image-02"></i> نص وصورة</button>
+      </div>
+      <div id="mem-text-section" class="form-group">
+        <textarea class="form-textarea" id="mem-text"
+          placeholder="اكتب قصتك أو ذكراك هنا... دعها تعيش في قلوب من تحب."></textarea>
+      </div>
+      <div id="mem-photo-section" style="display:none;">
+        <div class="upload-zone" id="mem-upload-zone" onclick="document.getElementById('mem-photo-input').click()">
+          <div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div>
+          <div class="upload-text">اسحب وأفلت أو اختر صورة</div>
+        </div>
+        <input type="file" id="mem-photo-input" accept="image/*" style="display:none"
+          onchange="previewUpload(this,'mem-upload-zone')">
+      </div>
+      <button class="btn-submit" onclick="mockSubmit('memory-modal','mem','الذكريات','memories-count',renderMemories)">
+        <i class="hgi hgi-stroke hgi-rounded hgi-floppy-disk"></i>
+        <span>حفظ الذكرى</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+
+    /* DARK MODE */
+    function toggleMode() {
+      const isDark = document.body.classList.toggle("dark");
+      document.documentElement.classList.toggle("dark", isDark);
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    /* AUTH */
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentUser = null;
+      try { currentUser = JSON.parse(localStorage.getItem('currentUser')); } catch (e) { }
+
+      const userName = (currentUser?.name?.trim()) || "مستخدم";
+      const userNameEl = document.getElementById('userName');
+      if (userNameEl) userNameEl.innerText = userName;
+
+      let firstLetter = "?";
+      for (let ch of Array.from(userName)) { if (ch.trim()) { firstLetter = ch; break; } }
+      const avatarEl = document.getElementById('avatar');
+      if (avatarEl) {
+        avatarEl.innerText = firstLetter;
+        Object.assign(avatarEl.style, { display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontSize: '16px', fontWeight: 'bold', color: 'white' });
+      }
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          localStorage.removeItem('currentUser');
+          localStorage.removeItem('auth_session');
+          localStorage.removeItem('auth_remember');
+          window.location.href = 'index.html';
+        });
+      }
+
+      updateDashboard();
+    });
+
+    const EMPTY_USER_DATA = {
+      heirs: [],
+      banks: [],
+      valuables: [],
+      debts: [],
+      real_estate: [],
+      messages: [],
+      memories: [],
+    };
+
+    function getCurrentUserEmail() {
+      try {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        return (currentUser?.email || '').trim().toLowerCase();
+      } catch {
+        return '';
+      }
+    }
+
+    function getUserDataStorageKey() {
+      const email = getCurrentUserEmail();
+      return email ? `erth_dashboard_data_${email}` : 'erth_dashboard_data_guest';
+    }
+
+    function cloneEmptyUserData() {
+      return JSON.parse(JSON.stringify(EMPTY_USER_DATA));
+    }
+
+    function loadCurrentUserDashboardData() {
+      const storageKey = getUserDataStorageKey();
+      const saved = localStorage.getItem(storageKey);
+
+      if (!saved) {
+        const fresh = cloneEmptyUserData();
+        localStorage.setItem(storageKey, JSON.stringify(fresh));
+        return fresh;
+      }
+
+      try {
+        const parsed = JSON.parse(saved);
+        return {
+          heirs: Array.isArray(parsed.heirs) ? parsed.heirs : [],
+          banks: Array.isArray(parsed.banks) ? parsed.banks : [],
+          valuables: Array.isArray(parsed.valuables) ? parsed.valuables : [],
+          debts: Array.isArray(parsed.debts) ? parsed.debts : [],
+          real_estate: Array.isArray(parsed.real_estate) ? parsed.real_estate : [],
+          messages: Array.isArray(parsed.messages) ? parsed.messages : [],
+          memories: Array.isArray(parsed.memories) ? parsed.memories : [],
+        };
+      } catch {
+        const fresh = cloneEmptyUserData();
+        localStorage.setItem(storageKey, JSON.stringify(fresh));
+        return fresh;
+      }
+    }
+
+    function saveCurrentUserDashboardData() {
+      localStorage.setItem(getUserDataStorageKey(), JSON.stringify(MOCK));
+    }
+
+    let MOCK = loadCurrentUserDashboardData();
+
+    let _memFilter = 'all';
+
+    function syncCurrentUserDashboardData() {
+      MOCK = loadCurrentUserDashboardData();
+    }
+
+    function updateDashboard() {
+      syncCurrentUserDashboardData();
+
+      const re = MOCK.real_estate.length;
+      const bk = MOCK.banks.length;
+      const val = MOCK.valuables.length;
+      const dbt = MOCK.debts.length;
+      const hr = MOCK.heirs.length;
+      const msg = MOCK.messages.length;
+      const mem = MOCK.memories.length;
+
+      document.getElementById('dash-total-assets').textContent = re + bk + val;
+      document.getElementById('dash-categories').textContent = [re, bk, val, dbt, hr, msg, mem].filter(n => n > 0).length;
+      document.getElementById('dash-heirs').textContent = hr;
+
+      document.getElementById('cat-count-re').textContent = re + ' عنصر';
+      document.getElementById('cat-count-banks').textContent = bk + ' عنصر';
+      document.getElementById('cat-count-val').textContent = val + ' عنصر';
+      document.getElementById('cat-count-debts').textContent = dbt + ' عنصر';
+      document.getElementById('cat-count-heirs').textContent = hr + ' عنصر';
+      document.getElementById('cat-count-messages').textContent = msg + ' عنصر';
+      document.getElementById('cat-count-memories').textContent = mem + ' عنصر';
+    }
+
+    /* NAVIGATION */
+    const PAGE_META = {
+      'dashboard': { el: 'page-dashboard', label: 'لوحة التحكم', load: updateDashboard },
+      'heirs': { el: 'page-heirs', label: 'الورثة', load: renderHeirs },
+      'banks': { el: 'page-banks', label: 'حسابات بنكية', load: renderBanks },
+      'valuables': { el: 'page-valuables', label: 'الممتلكات الثمينة', load: renderValuables },
+      'debts': { el: 'page-debts', label: 'ديون والالتزامات', load: renderDebts },
+      'real-estate': { el: 'page-real-estate', label: 'العقارات', load: renderRealEstate },
+      'messages': { el: 'page-messages', label: 'رسائل عبر الزمن', load: renderMessages },
+      'memories': { el: 'page-memories', label: 'ذكرياتي', load: renderMemories },
+    };
+
+    function showPage(pageId) {
+      if (!PAGE_META[pageId]) return;
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(PAGE_META[pageId].el).classList.add('active');
+      document.getElementById('breadcrumb-current').textContent = PAGE_META[pageId].label;
+      document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
+      const nav = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+      if (nav) nav.classList.add('active');
+      PAGE_META[pageId].load();
+    }
+
+    document.querySelectorAll('.nav-item[data-page]').forEach(i =>
+      i.addEventListener('click', () => showPage(i.dataset.page))
+    );
+
+    /* RENDER FUNCTIONS */
+    function renderHeirs() {
+      const list = document.getElementById('heirs-list');
+      document.getElementById('heirs-count').textContent = MOCK.heirs.length;
+      list.innerHTML = MOCK.heirs.map(h => `
+        <div class="heir-card">
+          <div class="heir-menu" onclick="confirmDelete(()=>mockDelete('heirs',${h.id},'heirs-count',renderHeirs))">
+            <i class="hgi hgi-stroke hgi-rounded hgi-more-vertical"></i>
+          </div>
+          <div class="heir-avatar">
+            ${h.photo_url
+          ? `<img src="${h.photo_url}" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">`
+          : `<i class="hgi hgi-stroke hgi-rounded hgi-user-circle" style="font-size:38px;"></i>`
+        }
+          </div>
+          <div class="heir-name">${h.name}</div>
+          <div class="heir-rel">${h.relation}</div>
+          <div class="heir-info-row">
+            <i class="hgi hgi-stroke hgi-rounded hgi-call"></i> ${h.phone}
+          </div>
+          <div class="heir-info-row">
+            <i class="hgi hgi-stroke hgi-rounded hgi-mail-01"></i> ${h.email}
+          </div>
+        </div>`).join('');
+      updateDashboard();
+    }
+
+    function renderBanks() {
+      const list = document.getElementById('banks-list');
+      document.getElementById('banks-count').textContent = MOCK.banks.length;
+      list.innerHTML = MOCK.banks.map(b => `
+        <div class="bank-card-wrap">
+          <div class="bank-card-visual" style="background:${b.card_color || 'linear-gradient(135deg,#2c2c2c,#4a4a4a)'}">
+            <div style="position:absolute;top:14px;right:14px;font-size:12px;color:rgba(255,255,255,0.85);font-weight:700;">${b.bank_name}</div>
+            <div>
+              <div class="bank-card-num">${maskNum(b.account_number)} <span style="opacity:0.5;cursor:pointer;" onclick="toggleCardNum(this,'${b.account_number}')"><i class="hgi hgi-stroke hgi-rounded hgi-view" style="font-size:13px;color:rgba(255,255,255,0.7);vertical-align:middle;"></i></span></div>
+              <div class="bank-card-expiry">${b.exp_month}/${String(b.exp_year).slice(-2)}&nbsp; VALID THRU</div>
+            </div>
+            <div class="visa-badge">VISA</div>
+          </div>
+          <div class="bank-card-info">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="display:flex;gap:6px;">
+                <button class="icon-btn" onclick="showToast('تعديل — سيُربط بالباك لاحقاً')"><i class="hgi hgi-stroke hgi-rounded hgi-pencil-edit-02"></i></button>
+                <button class="icon-btn del" onclick="confirmDelete(()=>mockDelete('banks',${b.id},'banks-count',renderBanks))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+              </div>
+              <div style="font-size:11.5px;color:var(--textWhy);display:flex;align-items:center;gap:4px;">
+                <i class="hgi hgi-stroke hgi-rounded hgi-refresh" style="font-size:13px;color:var(--icon-color);opacity:0.7;"></i> الرصيد
+              </div>
+            </div>
+            <div class="balance-amount">${fmt(b.balance)}</div>
+            <div class="bank-meta">
+              <div style="display:flex;align-items:center;gap:4px;"><i class="hgi hgi-stroke hgi-rounded hgi-bank"></i> ${b.bank_name}</div>
+              <div style="display:flex;align-items:center;gap:4px;"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i> ${b.exp_month} / ${b.exp_year}</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:7px;border-top:1px solid var(--borderColor);">
+              <span class="account-type-badge">${b.account_type}</span>
+              <span style="font-size:11.5px;color:var(--textWhy);">نوع الحساب</span>
+            </div>
+          </div>
+        </div>`).join('');
+      updateDashboard();
+    }
+
+    function renderValuables() {
+      const list = document.getElementById('valuables-list');
+      document.getElementById('valuables-count').textContent = MOCK.valuables.length;
+      list.innerHTML = MOCK.valuables.map(v => `
+        <div class="val-card">
+          <div class="val-img">
+            <i class="hgi hgi-stroke hgi-rounded ${v.icon || 'hgi-diamond-02'}" style="font-size:52px;"></i>
+          </div>
+          <div class="val-card-actions">
+            <button class="val-action-btn" onclick="showToast('تعديل — سيُربط بالباك لاحقاً')"><i class="hgi hgi-stroke hgi-rounded hgi-pencil-edit-02"></i></button>
+            <button class="val-action-btn del" onclick="confirmDelete(()=>mockDelete('valuables',${v.id},'valuables-count',renderValuables))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+          </div>
+          <div class="val-info">
+            <div class="val-name">${v.name}</div>
+            <div class="val-meta-row"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i> ${v.purchase_day} / ${v.purchase_month} / ${v.purchase_year}</div>
+            <div class="val-meta-row"><i class="hgi hgi-stroke hgi-rounded hgi-coins-01"></i> القيمة التقريبية ${fmt(v.estimated_value)}</div>
+          </div>
+        </div>`).join('');
+      updateDashboard();
+    }
+
+    /* RENDER DEBTS */
+    function renderDebts() {
+      const list = document.getElementById('debts-list');
+      document.getElementById('debts-count').textContent = MOCK.debts.length;
+
+      const debtTypeIcons = {
+        'قرض عقاري': 'hgi-home-04',
+        'قرض شخصي': 'hgi-user-circle',
+        'قرض تجاري': 'hgi-building-01',
+        'بطاقة ائتمان': 'hgi-credit-card',
+      };
+
+      list.innerHTML = MOCK.debts.map(d => {
+        const progressPct = d.installment
+          ? Math.min(Math.round((d.installment / d.amount) * 100 * 12), 85)
+          : 40;
+        const icon = debtTypeIcons[d.debt_type] || 'hgi-document-01';
+
+        return `
+        <div class="debt-card">
+          <div class="debt-card-content">
+            <div class="debt-card-head">
+              <div class="debt-head-right">
+                <div class="debt-creditor-icon">
+                  <i class="hgi hgi-stroke hgi-rounded ${icon}"></i>
+                </div>
+                <div>
+                  <div class="debt-creditor-name">${d.creditor_name}</div>
+                  <div class="debt-type-badge">
+                    <i class="hgi hgi-stroke hgi-rounded hgi-flash" style="font-size:10px;"></i>
+                    ${d.debt_type}
+                  </div>
+                </div>
+              </div>
+              <div class="debt-card-btns">
+                <button class="debt-action-btn" onclick="showToast('تعديل — سيُربط بالباك لاحقاً')"><i class="hgi hgi-stroke hgi-rounded hgi-pencil-edit-02"></i></button>
+                <button class="debt-action-btn del" onclick="confirmDelete(()=>mockDelete('debts',${d.id},'debts-count',renderDebts))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+              </div>
+            </div>
+
+            <div class="debt-amounts-row">
+              <div class="debt-amount-box">
+                <div class="debt-amount-label">المبلغ المستحق</div>
+                <div class="debt-amount-val danger">${fmt(d.amount)}</div>
+              </div>
+              <div class="debt-amount-box">
+                <div class="debt-amount-label">القسط الشهري</div>
+                <div class="debt-amount-val">${d.installment ? fmt(d.installment) : '—'}</div>
+              </div>
+            </div>
+
+            ${d.installment ? `
+            <div class="debt-progress-wrap">
+              <div class="debt-progress-label">
+                <span>نسبة القسط الشهري</span>
+                <span>${progressPct}%</span>
+              </div>
+              <div class="debt-progress-bar">
+                <div class="debt-progress-fill" style="width:${progressPct}%;"></div>
+              </div>
+            </div>` : ''}
+
+            <div class="debt-card-footer">
+              <div class="debt-due-date">
+                <div class="debt-due-icon"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i></div>
+                <div>
+                  <div style="font-size:10.5px;color:var(--textWhy);margin-bottom:1px;">تاريخ الاستحقاق</div>
+                  <div style="font-size:13px;font-weight:700;color:var(--mainColor);">${d.due_day} / ${d.due_month} / ${d.due_year}</div>
+                </div>
+              </div>
+              <div style="font-size:11px;color:var(--textWhy);background:var(--inputBg);padding:5px 10px;border-radius:20px;display:flex;align-items:center;gap:4px;">
+                <i class="hgi hgi-stroke hgi-rounded hgi-checkmark-circle-02" style="font-size:13px;color:#4caf50;"></i> موثّق
+              </div>
+            </div>
+
+          </div>
+        </div>`;
+      }).join('');
+
+      updateDashboard();
+    }
+
+    function renderRealEstate() {
+      const list = document.getElementById('re-list');
+      document.getElementById('re-count').textContent = MOCK.real_estate.length;
+      list.innerHTML = MOCK.real_estate.map(p => `
+        <div class="prop-card">
+          <div class="prop-img">
+            <i class="hgi hgi-stroke hgi-rounded ${p.icon || 'hgi-building-01'}" style="font-size:56px;"></i>
+          </div>
+          <div class="prop-card-actions">
+            <button class="val-action-btn" onclick="showToast('تعديل — سيُربط بالباك لاحقاً')"><i class="hgi hgi-stroke hgi-rounded hgi-pencil-edit-02"></i></button>
+            <button class="val-action-btn del" onclick="confirmDelete(()=>mockDelete('real_estate',${p.id},'re-count',renderRealEstate))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+          </div>
+          <div class="prop-info">
+            <div class="prop-name">${p.name}</div>
+            <div class="prop-detail"><i class="hgi hgi-stroke hgi-rounded hgi-location-01"></i> ${p.address}</div>
+            <div class="prop-detail"><i class="hgi hgi-stroke hgi-rounded hgi-square"></i> المساحة: ${p.area} م²</div>
+            <div class="prop-detail"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i> ${p.purchase_day} / ${p.purchase_month} / ${p.purchase_year}</div>
+            <div class="prop-detail"><i class="hgi hgi-stroke hgi-rounded hgi-coins-01"></i> ${fmt(p.estimated_value)}</div>
+          </div>
+        </div>`).join('');
+      updateDashboard();
+    }
+
+    function renderMessages() {
+      const list = document.getElementById('messages-list');
+      document.getElementById('messages-count').textContent = MOCK.messages.length;
+
+      if (!MOCK.messages.length) {
+        list.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-icon"><i class="hgi hgi-stroke hgi-rounded hgi-mail-01"></i></div>
+            <div class="empty-state-title">لا توجد رسائل بعد</div>
+            <div class="empty-state-text">ابدأ بكتابة رسالتك الأولى لمن تحب.<br>كلماتك ستبقى حتى بعد غيابك.</div>
+          </div>`;
+        updateDashboard();
+        return;
+      }
+
+      list.innerHTML = MOCK.messages.map(m => `
+        <div class="msg-card">
+          ${m.has_attachment ? `<div class="msg-attach-badge"><i class="hgi hgi-stroke hgi-rounded hgi-attachment-02"></i> مرفق</div>` : ''}
+          <div class="msg-card-header">
+            <div class="msg-envelope-icon"><i class="hgi hgi-stroke hgi-rounded hgi-mail-01"></i></div>
+            <div>
+              <div class="msg-recipient-name">${m.recipient_name}</div>
+              <div class="msg-recipient-rel">${m.recipient_relation}</div>
+            </div>
+            <div class="msg-card-actions-top">
+              <button class="val-action-btn" style="background:rgba(255,255,255,0.9);" onclick="showToast('تعديل — سيُربط بالباك لاحقاً')"><i class="hgi hgi-stroke hgi-rounded hgi-pencil-edit-02"></i></button>
+              <button class="val-action-btn del" onclick="confirmDelete(()=>mockDelete('messages',${m.id},'messages-count',renderMessages))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+            </div>
+          </div>
+          <div class="msg-card-body">
+            <div class="msg-subject">${m.subject}</div>
+            <div class="msg-preview">${m.body}</div>
+            <div class="msg-card-footer">
+              <div class="msg-delivery-badge"><i class="hgi hgi-stroke hgi-rounded hgi-mail-send-01"></i> ${m.delivery}</div>
+              <button class="msg-view-btn" onclick="showMsgView(${m.id})">عرض الرسالة ←</button>
+            </div>
+            <div class="msg-date" style="margin-top:8px;"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i> ${m.date_written}</div>
+          </div>
+        </div>`).join('');
+
+      updateDashboard();
+    }
+
+    function renderMemories() {
+      const list = document.getElementById('memories-list');
+      document.getElementById('memories-count').textContent = MOCK.memories.length;
+
+      const filtered = _memFilter === 'all'
+        ? MOCK.memories
+        : MOCK.memories.filter(m => m.type === _memFilter);
+
+      if (!filtered.length) {
+        list.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-01"></i></div>
+            <div class="empty-state-title">لا توجد ذكريات في هذه الفئة</div>
+            <div class="empty-state-text">ابدأ بإضافة ذكرياتك ولحظاتك الثمينة.</div>
+          </div>`;
+        updateDashboard();
+        return;
+      }
+
+      list.innerHTML = filtered.map(m => `
+        <div class="mem-card">
+          <div class="mem-img-wrap">
+            ${m.photo_url
+          ? `<img src="${m.photo_url}" alt="${m.title}">`
+          : `<i class="hgi hgi-stroke hgi-rounded ${m.icon || 'hgi-image-01'}" style="font-size:54px;"></i>`
+        }
+            <div class="mem-type-badge">${m.type}</div>
+          </div>
+          <div class="mem-card-actions">
+            <button class="val-action-btn del" onclick="confirmDelete(()=>mockDelete('memories',${m.id},'memories-count',renderMemories))"><i class="hgi hgi-stroke hgi-rounded hgi-delete-02"></i></button>
+          </div>
+          <div class="mem-info">
+            <div class="mem-title">${m.title}</div>
+            ${m.text ? `<div class="mem-text-preview">${m.text}</div>` : ''}
+            <div class="mem-footer">
+              <div class="mem-date"><i class="hgi hgi-stroke hgi-rounded hgi-calendar-01"></i> ${m.date}</div>
+              <button class="mem-view-btn" onclick="showMemView(${m.id})">عرض ←</button>
+            </div>
+          </div>
+        </div>`).join('');
+
+      updateDashboard();
+    }
+
+    function filterMemories(type, btn) {
+      _memFilter = type;
+      document.querySelectorAll('.mem-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderMemories();
+    }
+
+    function showMsgView(id) {
+      const m = MOCK.messages.find(x => x.id === id);
+      if (!m) return;
+      document.getElementById('mv-recipient').textContent = `${m.recipient_name} (${m.recipient_relation})`;
+      document.getElementById('mv-subject').textContent = m.subject;
+      document.getElementById('mv-body').textContent = m.body;
+      document.getElementById('mv-delivery').innerHTML = `<i class="hgi hgi-stroke hgi-rounded hgi-mail-send-01" style="font-size:13px;color:var(--icon-color);"></i> ${m.delivery}`;
+      document.getElementById('mv-date').innerHTML = `<i class="hgi hgi-stroke hgi-rounded hgi-calendar-01" style="font-size:13px;color:var(--icon-color);"></i> ${m.date_written}`;
+      document.getElementById('msg-view-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMsgView() {
+      document.getElementById('msg-view-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showMemView(id) {
+      const m = MOCK.memories.find(x => x.id === id);
+      if (!m) return;
+      const imgWrap = document.getElementById('mv-mem-img');
+      imgWrap.innerHTML = m.photo_url
+        ? `<img src="${m.photo_url}" alt="${m.title}">`
+        : `<i class="hgi hgi-stroke hgi-rounded ${m.icon || 'hgi-image-01'}" style="font-size:72px;"></i>`;
+      document.getElementById('mv-mem-title').textContent = m.title;
+      document.getElementById('mv-mem-meta').textContent = `${m.date}  •  ${m.type}`;
+      document.getElementById('mv-mem-body').textContent = m.text || '';
+      document.getElementById('mv-mem-body').style.display = m.text ? 'block' : 'none';
+      document.getElementById('mem-view-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMemView() {
+      document.getElementById('mem-view-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function openMessageModal() {
+      const sel = document.getElementById('msg-recipient');
+      sel.innerHTML = '<option value="">اختر المستلم من قائمة الورثة</option>' +
+        MOCK.heirs.map(h => `<option value="${h.id}">${h.name} (${h.relation})</option>`).join('');
+      openModal('message-modal');
+    }
+
+    function setMemType(type, btn) {
+      document.getElementById('mem-type-val').value = type;
+      document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const textSec = document.getElementById('mem-text-section');
+      const photoSec = document.getElementById('mem-photo-section');
+      if (type === 'نص') { textSec.style.display = 'block'; photoSec.style.display = 'none'; }
+      else if (type === 'صورة') { textSec.style.display = 'none'; photoSec.style.display = 'block'; }
+      else { textSec.style.display = 'block'; photoSec.style.display = 'block'; }
+    }
+
+    let _msgHasAttach = false;
+
+    function mockSubmit(modalId, prefix, sectionName, countId, renderFn) {
+      syncCurrentUserDashboardData();
+
+      const nameInputs = { heir: 'heir-name', bank: 'bank-name', val: 'val-name', debt: 'debt-creditor', re: 're-name', msg: 'msg-subject', mem: 'mem-name' };
+      const nameVal = document.getElementById(nameInputs[prefix])?.value?.trim();
+      if (!nameVal) { showToast('يرجى ملء الحقل الأساسي', true); return; }
+
+      let newItem = { id: Date.now() };
+
+      if (prefix === 'heir') {
+        newItem = { ...newItem, name: nameVal, relation: document.getElementById('heir-relation').value || 'وريث', phone: document.getElementById('heir-phone').value || '—', email: document.getElementById('heir-email').value || '—', photo_url: null };
+        MOCK.heirs.push(newItem);
+      } else if (prefix === 'bank') {
+        const colors = ['linear-gradient(135deg,#1a472a,#2d6a4f)', 'linear-gradient(135deg,#1b2a4a,#2c4a7c)', 'linear-gradient(135deg,#4a1942,#7c2d6a)', 'linear-gradient(135deg,#4a2800,#7c4400)'];
+        newItem = { ...newItem, bank_name: nameVal, account_number: document.getElementById('bank-account-num').value || '0000000000', account_type: document.getElementById('bank-type').value || 'حساب جاري', balance: Number(document.getElementById('bank-balance').value) || 0, exp_month: document.getElementById('bank-exp-month').value || '1', exp_year: document.getElementById('bank-exp-year').value || '2030', card_color: colors[Math.floor(Math.random() * colors.length)] };
+        MOCK.banks.push(newItem);
+      } else if (prefix === 'val') {
+        const icons = ['hgi-diamond-02', 'hgi-watch-01', 'hgi-gold-ingots', 'hgi-crown', 'hgi-gift'];
+        newItem = { ...newItem, name: nameVal, purchase_day: document.getElementById('val-day').value || '1', purchase_month: document.getElementById('val-month').value || '1', purchase_year: document.getElementById('val-year').value || '2024', estimated_value: Number(document.getElementById('val-value').value) || 0, icon: icons[Math.floor(Math.random() * icons.length)] };
+        MOCK.valuables.push(newItem);
+      } else if (prefix === 'debt') {
+        newItem = { ...newItem, creditor_name: nameVal, debt_type: document.getElementById('debt-type').value || 'قرض شخصي', amount: Number(document.getElementById('debt-amount').value) || 0, installment: Number(document.getElementById('debt-installment').value) || null, due_day: document.getElementById('debt-day').value || '1', due_month: document.getElementById('debt-month').value || '1', due_year: document.getElementById('debt-year').value || '2025' };
+        MOCK.debts.push(newItem);
+      } else if (prefix === 're') {
+        const icons = ['hgi-building-01', 'hgi-city-01', 'hgi-store-01', 'hgi-home-04', 'hgi-office-building'];
+        newItem = { ...newItem, name: nameVal, address: document.getElementById('re-address').value || '—', area: Number(document.getElementById('re-area').value) || 0, estimated_value: Number(document.getElementById('re-value').value) || 0, purchase_day: document.getElementById('re-day').value || '1', purchase_month: document.getElementById('re-month').value || '1', purchase_year: document.getElementById('re-year').value || '2024', icon: icons[Math.floor(Math.random() * icons.length)] };
+        MOCK.real_estate.push(newItem);
+      } else if (prefix === 'msg') {
+        const recipientId = Number(document.getElementById('msg-recipient').value) || null;
+        const recipientObj = MOCK.heirs.find(h => h.id === recipientId);
+        if (!recipientId) { showToast('يرجى اختيار المستلم', true); return; }
+        const bodyText = document.getElementById('msg-body').value.trim();
+        if (!bodyText) { showToast('يرجى كتابة نص الرسالة', true); return; }
+        newItem = { ...newItem, recipient_id: recipientId, recipient_name: recipientObj?.name || '—', recipient_relation: recipientObj?.relation || '—', subject: nameVal, body: bodyText, delivery: document.getElementById('msg-delivery').value || 'بعد الوفاة', date_written: new Date().toLocaleDateString('ar-EG'), has_attachment: _msgHasAttach };
+        MOCK.messages.push(newItem);
+        _msgHasAttach = false;
+      } else if (prefix === 'mem') {
+        const memType = document.getElementById('mem-type-val').value;
+        const memText = memType !== 'صورة' ? (document.getElementById('mem-text').value.trim() || null) : null;
+        const icons = ['hgi-heart-01', 'hgi-backpack-01', 'hgi-airplane-01', 'hgi-quill-write-02', 'hgi-mortarboard-01', 'hgi-home-09', 'hgi-sunrise', 'hgi-party-popper'];
+        newItem = { ...newItem, title: nameVal, date: `${document.getElementById('mem-day').value || '1'} / ${document.getElementById('mem-month').value || '1'} / ${document.getElementById('mem-year').value || '2024'}`, type: memType, text: memText, photo_url: null, icon: icons[Math.floor(Math.random() * icons.length)] };
+        MOCK.memories.push(newItem);
+      }
+
+      saveCurrentUserDashboardData();
+      showToast('تمت الإضافة وحفظها في حسابك فقط');
+      closeModal(modalId);
+      resetFields(prefix);
+      renderFn();
+    }
+
+    function mockDelete(section, id, countId, renderFn) {
+      syncCurrentUserDashboardData();
+      const keyMap = { heirs: 'heirs', banks: 'banks', valuables: 'valuables', debts: 'debts', real_estate: 'real_estate', messages: 'messages', memories: 'memories' };
+      const key = keyMap[section] || section;
+      MOCK[key] = MOCK[key].filter(i => i.id !== id);
+      saveCurrentUserDashboardData();
+      showToast('تم الحذف من حسابك فقط');
+      renderFn();
+    }
+
+    function fmt(val) {
+      if (!val && val !== 0) return '—';
+      return Number(val).toLocaleString('ar-EG') + ' جنيه';
+    }
+
+    function maskNum(num) {
+      if (!num) return '****';
+      const s = String(num);
+      return s.slice(0, 4) + ' ' + '****' + ' ' + s.slice(-4);
+    }
+
+    function toggleCardNum(el, full) {
+      const parent = el.closest('.bank-card-num');
+      const showing = el.dataset.showing === '1';
+      parent.childNodes[0].textContent = showing ? maskNum(full) + ' ' : full + ' ';
+      el.innerHTML = showing
+        ? `<i class="hgi hgi-stroke hgi-rounded hgi-view" style="font-size:13px;color:rgba(255,255,255,0.7);vertical-align:middle;"></i>`
+        : `<i class="hgi hgi-stroke hgi-rounded hgi-view-off-slash" style="font-size:13px;color:rgba(255,255,255,0.7);vertical-align:middle;"></i>`;
+      el.dataset.showing = showing ? '0' : '1';
+    }
+
+    function previewUpload(input, zoneId) {
+      const file = input.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById(zoneId).innerHTML = `<img src="${e.target.result}" style="max-height:130px;border-radius:9px;max-width:100%;">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function togglePwd(id, iconEl) {
+      const inp = document.getElementById(id);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+      iconEl.innerHTML = inp.type === 'password'
+        ? `<i class="hgi hgi-stroke hgi-rounded hgi-view"></i>`
+        : `<i class="hgi hgi-stroke hgi-rounded hgi-view-off-slash"></i>`;
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(o =>
+      o.addEventListener('click', e => { if (e.target === o) closeModal(o.id); })
+    );
+
+    let _pendingDelete = null;
+    function confirmDelete(cb) { _pendingDelete = cb; document.getElementById('confirm-overlay').classList.add('open'); }
+    function closeConfirm() { _pendingDelete = null; document.getElementById('confirm-overlay').classList.remove('open'); }
+    document.getElementById('confirm-del-btn').onclick = () => { if (_pendingDelete) _pendingDelete(); closeConfirm(); };
+
+    function showToast(msg, isErr = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.className = 'toast' + (isErr ? ' error' : '');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    function resetFields(prefix) {
+      const ids = {
+        heir: ['heir-name', 'heir-relation', 'heir-phone', 'heir-email'],
+        bank: ['bank-name', 'bank-account-num', 'bank-balance'],
+        val: ['val-name', 'val-value'],
+        debt: ['debt-creditor', 'debt-amount', 'debt-installment'],
+        re: ['re-name', 're-address', 're-area', 're-value'],
+        msg: ['msg-subject', 'msg-body'],
+        mem: ['mem-name', 'mem-text'],
+      };
+      (ids[prefix] || []).forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+
+      const uploadZoneDefaults = {
+        heir: `<div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div><div class="upload-text">اسحب وأفلت أو اختر صورة</div>`,
+        bank: `<div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div><div class="upload-text">اسحب وأفلت أو اختر صورة</div>`,
+        val: `<div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div><div class="upload-text">اسحب وأفلت أو اختر صورة</div>`,
+        re: `<div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div><div class="upload-text">اسحب وأفلت أو اختر صورة</div>`,
+        msg: `<div class="upload-icon" style="font-size:24px;"><i class="hgi hgi-stroke hgi-rounded hgi-attachment-02"></i></div><div class="upload-text">مرفق اختياري (صورة أو ذكرى)</div>`,
+        mem: `<div class="upload-icon"><i class="hgi hgi-stroke hgi-rounded hgi-image-upload"></i></div><div class="upload-text">اسحب وأفلت أو اختر صورة</div>`,
+      };
+
+      const zoneIds = { heir: 'heir-upload-zone', bank: 'bank-upload-zone', val: 'val-upload-zone', re: 're-upload-zone', msg: 'msg-upload-zone', mem: 'mem-upload-zone' };
+      const zone = document.getElementById(zoneIds[prefix]);
+      if (zone && uploadZoneDefaults[prefix]) zone.innerHTML = uploadZoneDefaults[prefix];
+
+      if (prefix === 'mem') {
+        document.getElementById('mem-type-val').value = 'نص';
+        document.querySelectorAll('.type-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+        document.getElementById('mem-text-section').style.display = 'block';
+        document.getElementById('mem-photo-section').style.display = 'none';
+      }
+
+      if (prefix === 'msg') {
+        const sel = document.getElementById('msg-recipient');
+        if (sel) sel.selectedIndex = 0;
+      }
+    }
+
+    /* INIT */
+    renderHeirs();
+    renderBanks();
+    renderValuables();
+    renderDebts();
+    renderRealEstate();
+    renderMessages();
+    renderMemories();
+
+  </script>
+</body>
+
+</html>

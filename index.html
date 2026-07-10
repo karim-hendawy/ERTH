@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erth</title>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="./src/auth.css">
+  <link rel="stylesheet" href="./src/landingPage.css">
+</head>
+
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <div id="water-container"></div>
+  <header class="main-header">
+    <nav class="navbar rtl">
+      <div class="container nav-wrapper">
+
+        <div class="nav-right">
+          <div class="nav-logo">
+            <a href="index.html" class="nav-logo">
+              <img src="resource/imgs/logo.svg" alt="إرث" class="logo-light">
+              <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark">
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-center">
+          <ul class="nav-links">
+            <li><a href="#" class="active">الرئيسية</a></li>
+            <li><a href="#" id="heritageLink" class="dashboard-link">إرثك</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-left">
+          <div class="nav-actions">
+            <div class="mode-switch-wrapper rtl">
+              <div class="mode-switch" onclick="toggleMode()">
+                <div class="mode-indicator"></div>
+
+                <i class="fas fa-moon mode-icon" id="moon-icon"></i>
+                <i class="fas fa-sun mode-icon" id="sun-icon"></i>
+              </div>
+            </div>
+
+            <div class="user-profile" onclick="openAuthModal()">
+              <span class="user-name">تسجيل الدخول</span>
+              <div class="avatar-circle"><i class="fa-regular fa-user"></i></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <section id="hero" class="hero-section">
+      <div class="row-hero">
+        <div class="row-one contaner-row">
+          <h1>مرحبا بكـــــــم</h1>
+
+          <div class="hero-team">
+            <div class="team-avatars">
+              <img src="src/imgsTeam/adam.jpeg" alt="team">
+              <img src="src/imgsTeam/kareem.jpeg" alt="team">
+              <img src="src/imgsTeam/roaa.jpeg" alt="team">
+            </div>
+
+            <a href="./src/team.html" class="team-link">
+              التقي بفريق إرث <i class="fa-solid fa-arrow-left rotated-45"></i>
+            </a>
+          </div>
+        </div>
+        <div class="row-two contaner-row">
+          <a href="#" hidden-on-load class="create-account-link" onclick="openAuthModal()">
+            <i class="fa-solid fa-arrow-left rotated-45"></i>
+            أنشا حسابك الآن وحافظ على إرثك
+          </a>
+
+          <h1>في عالـــم</h1>
+
+          <!-- Light image -->
+          <div class="routat-image">
+            <img class="hero-logo hero-light" src="resource/imgs/logoindark.svg" alt="logo">
+
+          </div>
+
+        </div>
+        <div class="row-three contaner-row">
+          <div class="column-hero">
+            <div class="column-one">
+              <h2>اترك أثرًا… يتحدث عنك</h2>
+              <p>نساعدك على توثيق رسائلك، أفكارك، وذكرياتك بطريقة آمنة ومنظمة، لتصل إلى من تحب في الوقت الذي تختاره.
+                سواء كانت كلمات دعم، أو لحظات خاصة، أو وصايا رقمية، “إرثك” يضمن أن يبقى حضورك مستمرًا، وأن تظل قصتك
+                حاضرة حتى عندما لا تكون.</p>
+            </div>
+            <div class="column-two">
+              <h2>لأن كل قصة تستحق أن تُروى</h2>
+              <p>كل إنسان يحمل بداخله كلمات لم تُقال بعد، ومشاعر يريد أن يتركها لمن يحب. مع “إرثك”، يمكنك كتابة رسائلك
+                اليوم لتصل في الغد، ومشاركة ذكرياتك بطريقة تضمن بقاءها. اجعل حضورك دائمًا، واترك أثرًا لا يُنسى في حياة
+                من يهمّك أمرهم.</p>
+            </div>
+            <div class="column-three">
+              <div class="row-info-one">
+                <h3>راسلنا عبــــــر : </h3>
+                <a href="mailto:erth@gmail.com">erth@gmail.com<i class="fa-solid fa-arrow-left rotated-45"></i></a>
+              </div>
+              <div class="row-info-two">
+                <h3>أو تواصل بنــــــــا : </h3>
+                <a href="tel:+201000000000">+201000000000<i class="fa-solid fa-arrow-left rotated-45"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <div class="auth-toast-container" id="authToastContainer"></div>
+
+    <div class="auth-overlay" id="authOverlay" onclick="handleOverlayClick(event)">
+      <div class="auth-bg-blobs" id="authBgBlobs">
+        <div class="auth-blob auth-blob--1"></div>
+        <div class="auth-blob auth-blob--2"></div>
+      </div>
+
+      <div class="auth-card" id="authCard">
+        <button class="auth-close" onclick="closeAuthModal()" title="إغلاق">✕</button>
+
+        <!-- شاشة تسجيل الدخول -->
+        <div class="form-screen active" id="authScreenLogin">
+          <div class="form-header">
+            <h1>مرحبا بعودتك إلى <img src="resource/imgs/logo.svg" alt="إرث" class="logo-light">
+              <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark">
+            </h1>
+            <p>سجل الدخول إلى حسابك للوصول إلى بياناتك و إرثك</p>
+          </div>
+          <form id="authLoginForm" autocomplete="off" novalidate>
+            <div class="input-group">
+              <input type="email" id="authLoginEmail" class="input-field" placeholder=" " required />
+              <label for="authLoginEmail" class="floating-label">البريد الإلكتروني</label>
+              <span class="error-msg" id="authLoginEmailError"></span>
+            </div>
+            <div class="input-group password-field">
+              <input type="password" id="authLoginPassword" class="input-field" placeholder=" " required />
+              <label for="authLoginPassword" class="floating-label">كلمة المرور</label>
+              <button type="button" class="eye-toggle" onclick="authTogglePassword('authLoginPassword',this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+              <span class="error-msg" id="authLoginPasswordError"></span>
+            </div>
+            <div class="options-row">
+              <label class="remember-me">
+                <input type="checkbox" id="authRememberMe" />
+                <span class="custom-checkbox"></span>
+                تذكرني
+              </label>
+              <span class="form-link" onclick="authSwitchScreen('forgot')">نسيت كلمة المرور؟</span>
+            </div>
+            <button type="submit" class="btn btn--primary" id="authLoginBtn">
+              <span class="btn-text">تسجيل الدخول</span>
+              <span class="btn-spinner"></span>
+            </button>
+          </form>
+          <p class="switch-text">
+            ليس لديك حساب؟
+            <span class="form-link" onclick="authSwitchScreen('signup')">إنشاء حساب جديد</span>
+          </p>
+        </div>
+
+        <!-- شاشة إنشاء الحساب -->
+        <div class="form-screen" id="authScreenSignup">
+          <div class="form-header">
+            <h1>أهلا بك في عالـــم<img src="resource/imgs/logo.svg" alt="إرث" class="logo-light">
+              <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark">
+            </h1>
+            <p>انشأ حسابك الآن وانضم إلينا لتحفظ إرثك</p>
+          </div>
+          <form id="authSignupForm" autocomplete="off" novalidate>
+            <div class="input-group">
+              <input type="text" id="authSignupName" class="input-field" placeholder=" " required />
+              <label for="authSignupName" class="floating-label">الاسم الكامل</label>
+              <span class="error-msg" id="authSignupNameError"></span>
+            </div>
+            <div class="input-group">
+              <input type="email" id="authSignupEmail" class="input-field" placeholder=" " required />
+              <label for="authSignupEmail" class="floating-label">البريد الإلكتروني</label>
+              <span class="error-msg" id="authSignupEmailError"></span>
+            </div>
+            <div class="input-group password-field">
+              <input type="password" id="authSignupPassword" class="input-field" placeholder=" " required />
+              <label for="authSignupPassword" class="floating-label">كلمة المرور</label>
+              <button type="button" class="eye-toggle" onclick="authTogglePassword('authSignupPassword',this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+
+            </div>
+            <div class="password-strength" id="authStrengthBars">
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+              <span class="strength-bar"></span>
+            </div>
+            <span class="strength-text" id="authStrengthText"></span>
+            <span class="error-msg" id="authSignupPasswordError"></span>
+            <div class="input-group password-field">
+              <input type="password" id="authSignupConfirm" class="input-field" placeholder=" " required />
+              <label for="authSignupConfirm" class="floating-label">تأكيد كلمة المرور</label>
+              <button type="button" class="eye-toggle" onclick="authTogglePassword('authSignupConfirm',this)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+              <span class="error-msg" id="authSignupConfirmError"></span>
+            </div>
+            <button type="submit" class="btn btn--primary" id="authSignupBtn">
+              <span class="btn-text">إنشاء الحساب</span>
+              <span class="btn-spinner"></span>
+            </button>
+          </form>
+          <p class="switch-text">
+            لديك حساب؟
+            <span class="form-link" onclick="authSwitchScreen('login')">تسجيل الدخول</span>
+          </p>
+        </div>
+
+        <!-- شاشة نسيت كلمة المرور -->
+        <div class="form-screen" id="authScreenForgot">
+          <div class="form-header">
+            <h1>استعادة كلمة المرور</h1>
+            <p id="authForgotSubtitle">أدخل بريدك الإلكتروني لإرسال رمز التحقق</p>
+          </div>
+          <div class="step-indicator">
+            <span class="step-dot active" id="authStepDot1"></span>
+            <span class="step-line" id="authStepLine1"></span>
+            <span class="step-dot" id="authStepDot2"></span>
+            <span class="step-line" id="authStepLine2"></span>
+            <span class="step-dot" id="authStepDot3"></span>
+          </div>
+          <form id="authForgotForm" autocomplete="off" novalidate>
+            <div id="authForgotStep1">
+              <div class="input-group">
+                <input type="email" id="authForgotEmail" class="input-field" placeholder=" " required />
+                <label for="authForgotEmail" class="floating-label">البريد الإلكتروني</label>
+                <span class="error-msg" id="authForgotEmailError"></span>
+              </div>
+              <button type="button" class="btn btn--primary" id="authSendOtpBtn">
+                <span class="btn-text">إرسال رمز التحقق</span>
+                <span class="btn-spinner"></span>
+              </button>
+            </div>
+            <div id="authForgotStep2" style="display:none">
+              <div class="otp-display" id="authOtpDisplay">
+                📧 رمز التحقق (تجريبي):
+                <strong id="authOtpCode">------</strong>
+                <small>رمز مكون من 6 أرقام</small>
+              </div>
+              <div class="input-group">
+                <input type="text" id="authForgotOtp" class="input-field" placeholder=" " maxlength="6"
+                  inputmode="numeric" />
+                <label for="authForgotOtp" class="floating-label">رمز التحقق</label>
+                <span class="error-msg" id="authForgotOtpError"></span>
+              </div>
+              <div class="input-group password-field">
+                <input type="password" id="authForgotNewPass" class="input-field" placeholder=" " />
+                <label for="authForgotNewPass" class="floating-label">كلمة المرور الجديدة</label>
+                <button type="button" class="eye-toggle" onclick="authTogglePassword('authForgotNewPass',this)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+                <span class="error-msg" id="authForgotNewPassError"></span>
+              </div>
+              <button type="submit" class="btn btn--primary" id="authResetBtn">
+                <span class="btn-text">تحديث كلمة المرور</span>
+                <span class="btn-spinner"></span>
+              </button>
+            </div>
+          </form>
+          <p class="switch-text">
+            <span class="form-link" onclick="authSwitchScreen('login')">← العودة لتسجيل الدخول</span>
+          </p>
+        </div>
+
+      </div><!-- /auth-card -->
+    </div><!-- /auth-overlay -->
+
+
+    <section class="pin-section">
+      <h1><img class="logo-light" src="resource/imgs/logo.svg"><img class="logo-dark"
+          src="resource/imgs/logoindark.svg">لية تستخــــــدم</h1>
+      <div class="content">
+        <div class="right-cards-side">
+          <!-- 01 – الأمان -->
+          <div class="card-wrapper">
+            <div class="feature-card">
+              <div class="card-accent">
+                <span class="card-num">01</span>
+                <div class="card-accent-line"></div>
+                <div class="card-accent-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">الأمان</span>
+                <h4 class="card-title">بياناتك في أمان تام</h4>
+                <p class="card-desc">بياناتك هي أغلى ما تملك، عشان كده بنوفر نظام تشفير متطور وحماية متعددة الطبقات
+                  تحافظ عليها آمنة بعيدًا عن أي تهديد.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 – التنظيم -->
+          <div class="card-wrapper">
+            <div class="feature-card">
+              <div class="card-accent">
+                <span class="card-num">02</span>
+                <div class="card-accent-line"></div>
+                <div class="card-accent-icon">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">التنظيم</span>
+                <h4 class="card-title">كل شيء في مكان واحد</h4>
+                <p class="card-desc">صورك، فيديوهاتك، ملفاتك القيمة وحتى ممتلكاتك الرقمية كلها محفوظة ومنظمة في مكان
+                  واحد ذكي يحل مشكلة النسيان والضياع نهائيًا.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 – المستقبل -->
+          <div class="card-wrapper">
+            <div class="feature-card">
+              <div class="card-accent">
+                <span class="card-num">03</span>
+                <div class="card-accent-line"></div>
+                <div class="card-accent-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">المستقبل</span>
+                <h4 class="card-title">اهتم بمستقبل عائلتك</h4>
+                <p class="card-desc">اضمن إن كل معلوماتك المهمة هتوصل للأشخاص اللي اخترتهم بسهولة وأمان في الوقت المناسب
+                  بدون أي تعقيد أو مشاكل.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 04 – الذكاء -->
+          <div class="card-wrapper">
+            <div class="feature-card">
+              <div class="card-accent">
+                <span class="card-num">04</span>
+                <div class="card-accent-line"></div>
+                <div class="card-accent-icon">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                      d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                  </svg>
+                </div>
+              </div>
+              <div class="card-body">
+                <span class="card-tag">الذكاء</span>
+                <h4 class="card-title">نظام ذكي يعمل عنك</h4>
+                <p class="card-desc">نظام تلقائي متطور بيشتغل في الخلفية، يراقب نشاطك وينفذ نقل البيانات بدقة في الوقت
+                  المناسب بدون أي تدخل منك.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="left-list-side">
+          <div class="indicator-track"></div>
+          <div class="indicator-segments">
+            <div class="indicator-segment"></div>
+            <div class="indicator-segment"></div>
+            <div class="indicator-segment"></div>
+            <div class="indicator-segment"></div>
+          </div>
+          <ul class="list">
+            <li>الأمان</li>
+            <li>التنظيم</li>
+            <li>المستقبل</li>
+            <li>الذكاء</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="page">
+      <div class="header-Why">
+        <h1>تسع محطات<br>تُعيد تعريف الجودة</h1>
+        <p>نحن لا نقدم وعوداً — نرسم مساراً من الإبداع والثقة، كل نقطة على هذا الدرب تحكي قصة ميزة حقيقية</p>
+        <div class="scroll-hint">
+          <span>◀ اكتشف الرحلة ▶</span>
+          <svg width="20" height="26" viewBox="0 0 20 26" fill="none">
+            <path d="M10 2v20M3 15l7 7 7-7" stroke="var(--mainColor)" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="journey-container">
+        <div class="path-wrap" id="pathWrap">
+          <svg class="journey-svg" id="jSvg" viewBox="0 0 840 2650" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="goldenPath" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="var(--mainColor)" />
+                <stop offset="100%" stop-color="var(--textWhy)" />
+              </linearGradient>
+              <radialGradient id="coreGlow" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="var(--mainColor)" />
+                <stop offset="100%" stop-color="var(--textWhy)" />
+              </radialGradient>
+              <filter id="circleGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="8" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="pathGlow" x="-5%" y="-2%" width="110%" height="105%">
+                <feGaussianBlur stdDeviation="3.5" />
+                <feMerge>
+                  <feMergeNode />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <path id="mainPath" d="M 420,150 
+               C 335,295  68,340  108,440
+               C 74,528   762,618 732,730
+               C 756,818  68,918  108,1020
+               C 68,1110  762,1200 732,1310
+               C 762,1398 68,1498 108,1600
+               C 68,1690  520,1770 732,1870
+               C 520,1950 68,2040 108,2140
+               C 74,2240  280,2350 420,2450" fill="none" stroke="var(--path-stroke)" stroke-width="6"
+              stroke-dasharray="26 20" stroke-linecap="round" filter="url(#pathGlow)" />
+
+            <!-- 9 محطات رئيسية مع أرقام واضحة -->
+            <g class="stop-group" id="s1">
+              <circle cx="420" cy="150" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="420" cy="150" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="420" cy="150" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="420" y="158" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">١</text>
+            </g>
+            <g class="stop-group" id="s2">
+              <circle cx="108" cy="440" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="108" cy="440" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="108" cy="440" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="108" y="448" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٢</text>
+            </g>
+            <g class="stop-group" id="s3">
+              <circle cx="732" cy="730" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="732" cy="730" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="732" cy="730" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="732" y="738" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٣</text>
+            </g>
+            <g class="stop-group" id="s4">
+              <circle cx="108" cy="1020" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="108" cy="1020" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="108" cy="1020" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="108" y="1028" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٤</text>
+            </g>
+            <g class="stop-group" id="s5">
+              <circle cx="732" cy="1310" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="732" cy="1310" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="732" cy="1310" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="732" y="1318" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٥</text>
+            </g>
+            <g class="stop-group" id="s6">
+              <circle cx="108" cy="1600" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="108" cy="1600" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="108" cy="1600" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="108" y="1608" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٦</text>
+            </g>
+            <g class="stop-group" id="s7">
+              <circle cx="732" cy="1870" r="82" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="732" cy="1870" r="62" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="732" cy="1870" r="48" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.5"
+                filter="url(#circleGlow)" />
+              <text x="732" y="1879" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="42" fill="var(--mainColor)">٧</text>
+            </g>
+            <g class="stop-group" id="s8">
+              <circle cx="108" cy="2140" r="72" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="108" cy="2140" r="52" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="108" cy="2140" r="42" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.2"
+                filter="url(#circleGlow)" />
+              <text x="108" y="2148" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="36" fill="var(--mainColor)">٨</text>
+            </g>
+            <g class="stop-group" id="s9">
+              <circle cx="420" cy="2450" r="82" fill="none" stroke="var(--circle-stroke)" stroke-width="1.5"
+                opacity="0.4" />
+              <circle cx="420" cy="2450" r="62" fill="none" stroke="var(--circle-stroke)" stroke-width="1.8" />
+              <circle cx="420" cy="2450" r="48" fill="var(--bgColor)" stroke="var(--mainColor)" stroke-width="3.5"
+                filter="url(#circleGlow)" />
+              <text x="420" y="2459" text-anchor="middle" dominant-baseline="middle" font-family="var(--secFont)"
+                font-weight="900" font-size="42" fill="var(--mainColor)">٩</text>
+            </g>
+
+            <g id="triple-groups-container"></g>
+          </svg>
+
+          <div class="cards-layer">
+            <div class="card" data-pos="s1" data-idx="0">
+              <h3>تحكم كامل</h3>
+              <p>تحديد من يرى ماذا، متى، وكيف. صلاحيات مخصصة لكل وريث.</p>
+            </div>
+            <div class="card" data-pos="s2" data-idx="1">
+              <h3>أمان فائق</h3>
+              <p>تشفير عسكري لبياناتك يضمن عدم وصول أي شخص غير مصرح له.</p>
+            </div>
+            <div class="card" data-pos="s3" data-idx="2">
+              <h3>تنظيم رقمي</h3>
+              <p>جمع كافة حساباتك ومستنداتك في مكان واحد منظم.</p>
+            </div>
+            <div class="card" data-pos="s4" data-idx="3">
+              <h3>إجراءات تلقائية</h3>
+              <p>نظام ذكي يفعل وصيتك الرقمية تلقائياً في حالة عدم النشاط.</p>
+            </div>
+            <div class="card" data-pos="s5" data-idx="4">
+              <h3>نقل آمن</h3>
+              <p>ضمان وصول الأصول للورثة الشرعيين بدون تعقيدات قانونية.</p>
+            </div>
+            <div class="card" data-pos="s6" data-idx="5">
+              <h3>توثيق العقود</h3>
+              <p>إمكانية رفع وتوثيق العقود والاتفاقيات الهامة لضمان حقوقك.</p>
+            </div>
+            <div class="card" data-pos="s7" data-idx="6">
+              <h3>دعم فني</h3>
+              <p>فريق متخصص لمساعدتك في إعداد إرثك الرقمي والإجابة عليك.</p>
+            </div>
+            <div class="card" data-pos="s8" data-idx="7">
+              <h3>وصول عالمي</h3>
+              <p>إدارة إرثك من أي مكان في العالم عبر منصة سحابية محمية.</p>
+            </div>
+            <div class="card" data-pos="s9" data-idx="8">
+              <h3>خصوصية مطلقة</h3>
+              <p>نحن لا نطلع على بياناتك؛ أنت الوحيد الذي يملك المفاتيح.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <section class="slider-section" dir="rtl">
+      <div class="slider-header">
+        <img id="charityLogo" src="resource/imgs/qadya.png" alt="Charity Logo">
+        <div class="charity-logo-container">
+          <img src="resource/imgs/logo.svg" alt="Erth" class="logo-main logo-light">
+          <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-main logo-dark">
+        </div>
+      </div>
+
+      <div class="slider-viewport">
+        <div class="slides-container" id="slidesContainer"></div>
+      </div>
+
+      <div class="slider-footer">
+        <div class="controls-wrapper">
+          <button class="nav-btn next-btn" onclick="handlePrev()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <div class="pagination" id="pagination"></div>
+
+          <button class="nav-btn prev-btn" onclick="handleNext()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
+
+        <a href="https://albaqyatalsalehat.net/contact.php" class="contact-link">
+          <span>للتواصل مع جمعية الباقيات الصالحات</span>
+          <i class="fas fa-arrow-left"></i>
+        </a>
+      </div>
+    </section>
+    <section class="privacySec" dir="rtl">
+      <div class="privacyContent">
+        <div class="privacyImgContainer">
+          <img src="resource/imgs/privacy.png" alt="Privacy Image" class="privacyImg" />
+          <div class="cardFly">
+            <p>حتى نحن لا نرى بياناتك</p>
+          </div>
+          <div class="cardFly cardFly2">
+            <p>حتى نحن لا نرى بياناتك</p>
+          </div>
+        </div>
+        <div class="PrivacyText">
+          <h2 class="privacyH2">
+            أمانك وخصوصيتك
+            <span class="privacySpan">
+              خط أحمر
+            </span>
+          </h2>
+          <p>
+            نحن ملتزمون بأعلى مستويات الخصوصية والأمان ندرك أن بياناتك تمثل مسؤولية كبيرة، لذا
+            نطبق أفضل معايير الحماية لحفظ وتأمين معلوماتك. نستخدم أحدث تقنيات التشفير وأنظمة
+            الحماية المتقدمة لمنع أي وصول غير مصرح به، مع مراقبة مستمرة و<span>اختبارات أمان دورية</span>
+            لضمان سلامة بياناتك دائمًا.
+          </p>
+          <button class="privacyBtn">تعرف على المزيد</button>
+        </div>
+      </div>
+    </section>
+    <section class="faq-container" dir="rtl">
+      <div class="faq-header">
+        <h1>الأسئلة الشائعة</h1>
+        <p>إجابات على أهم الأسئلة التي قد تخطر ببالك</p>
+      </div>
+
+      <div class="faq-box">
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>هل الخدمة مدفوعة ؟</span>
+            <div class="icon-wrapper">
+              <div class="icon-line line-h"></div>
+              <div class="icon-line line-v"></div>
+            </div>
+          </button>
+          <div class="accordion-content">
+            نقدم خطة مجانية تتيح لك تجربة المنصة وإدارة بياناتك بسهولة، مع إمكانية الترقية لاحقاً للحصول على مميزات
+            متقدمة
+            مثل مساحة أكبر وخيارات أمان إضافية.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>هل يمكن لأحد الورثة رؤية بيانات الورثة الآخرين ؟</span>
+            <div class="icon-wrapper">
+              <div class="icon-line line-h"></div>
+              <div class="icon-line line-v"></div>
+            </div>
+          </button>
+          <div class="accordion-content">
+            تعتمد المنصة على نظام تشفير وحماية يضمن خصوصية كل فرد، حيث لا يمكن لأي طرف الاطلاع على البيانات إلا في حال
+            منح
+            صلاحيات محددة.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>ما هي أنواع البيانات التي يمكنني حفظها ؟</span>
+            <div class="icon-wrapper">
+              <div class="icon-line line-h"></div>
+              <div class="icon-line line-v"></div>
+            </div>
+          </button>
+          <div class="accordion-content">
+            يمكنك حفظ الصور، الوثائق الرسمية، الملاحظات الصوتية، وأي معلومات رقمية ترغب في توريثها بأمان.
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header">
+            <span>هل إرث متوفر بلغات أخرى غير العربية ؟</span>
+            <div class="icon-wrapper">
+              <div class="icon-line line-h"></div>
+              <div class="icon-line line-v"></div>
+            </div>
+          </button>
+          <div class="accordion-content">
+            سيتم توفير المنصة بعدة لغات في المستقبل، مع التركيز حالياً على تقديم تجربة ممتازة للمستخدمين العرب.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-l">
+        <div class="hero-team">
+          <a href="./src/team.html" class="team-link">
+            التقي بفريق إرث <i class="fa-solid fa-arrow-left rotated-45"></i>
+          </a>
+          <div class="team-avatars">
+            <img style="display: none;" src="src/imgsTeam/roaa.jpeg" alt="team">
+            <img src="src/imgsTeam/roaa.jpeg" alt="team">
+            <img src="src/imgsTeam/kareem.jpeg" alt="team">
+            <img src="src/imgsTeam/adam.jpeg" alt="team">
+          </div>
+
+        </div>
+      </div>
+      <div class="footer-c">
+        <p>© 2026 جميع الحقوق محفوظة - ارث</p>
+      </div>
+
+      <div class="footer-r">
+        <img src="resource/imgs/logo.svg" alt="إرث" class="logo-light">
+        <img src="resource/imgs/logoindark.svg" alt="إرث" class="logo-dark">
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script src="src/auth.js"></script>
+  <script src="src/app.js"></script>
+</body>
+
+</html>

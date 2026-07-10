@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>فريق العمل - الأفق الذهبي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Doran&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bgColor: #FCF4E3;
+      --mainColor: #433222;
+      --textColor: black;
+      --textWhy: #907263;
+      --secbg: #FEFCF8;
+      --faqOpenbg: #ffffff;
+      --navBorderColor: var(--textColor);
+      --avatarBg: #dcd7ca;
+      --mainFont: 'Tajawal', sans-serif;
+      --secFont: 'Doran', serif;
+      --border-glow-light: rgba(67, 50, 34, 0.3);
+      --path-stroke: #433222;
+      --circle-stroke: #433222;
+
+      /* متغيرات ديناميكية يتم تحديثها عبر الـ JS */
+      --node-size: 88px;
+    }
+
+    /* --- وضع النهار (Light Mode) الاصلي --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bgColor);
+    }
+
+    body {
+      font-family: var(--mainFont);
+      color: var(--mainColor);
+      position: relative;
+      cursor: default;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* خلفية watermark خفيفة نهارية */
+    body::before {
+      content: 'TEAM';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: clamp(100px, 42vw, 400px);
+      font-weight: 900;
+      color: rgba(67, 50, 34, 0.03);
+      pointer-events: none;
+      white-space: nowrap;
+      line-height: 1;
+      font-family: var(--secFont);
+      transition: color 0.2s ease;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 50% 50%,
+          rgba(67, 50, 34, 0.04) 0%,
+          rgba(67, 50, 34, 0.01) 45%,
+          transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ========== الوضع المظلم (Dark Mode) ========== */
+    :root.dark,
+    body.dark {
+      --bgColor: #121211;
+      --mainColor: #EEE7D4;
+      --textColor: #EEE7D4;
+      --textWhy: #E4CAAE;
+      --secbg: #191918;
+      --faqOpenbg: #3C3C3C;
+      --navBorderColor: var(--mainColor);
+      --avatarBg: #2A2A28;
+      --border-glow-light: rgba(238, 231, 212, 0.35);
+      --path-stroke: #EEE7D4;
+      --circle-stroke: #E4CAAE;
+      --shadow-light: rgba(0, 0, 0, 0.4);
+    }
+
+    /* تحسينات إضافية للوضع المظلم (تغطية العناصر الثابتة) */
+    .dark body::before {
+      color: rgba(238, 231, 212, 0.04);
+    }
+
+    .dark #center-panel {
+      background: radial-gradient(circle at 40% 35%, rgba(18, 18, 17, 0.96) 0%, var(--secbg) 100%);
+      border: 1px solid var(--border-glow-light);
+      box-shadow: 0 0 0 1px rgba(238, 231, 212, 0.08), 0 0 40px rgba(0, 0, 0, 0.4) inset, 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .dark .mnode-ring {
+      background: var(--secbg);
+      border: 2.5px solid rgba(238, 231, 212, 0.4);
+    }
+
+    .dark .mnode-tip {
+      background: rgba(25, 25, 24, 0.96);
+      border: 1px solid rgba(238, 231, 212, 0.4);
+      color: var(--mainColor);
+    }
+
+    .dark .soc-btn {
+      background: rgba(238, 231, 212, 0.1);
+      border: 1px solid rgba(238, 231, 212, 0.25);
+      color: var(--mainColor);
+    }
+
+    .dark .soc-btn:hover {
+      background: rgba(238, 231, 212, 0.25);
+    }
+
+    .dark .home-link,
+    .dark #global-close-btn {
+      background: rgba(238, 231, 212, 0.1);
+      border: 1px solid rgba(238, 231, 212, 0.3);
+      color: var(--mainColor);
+    }
+
+    .dark .home-link:hover,
+    .dark #global-close-btn:hover {
+      background: rgba(238, 231, 212, 0.25);
+    }
+
+    .dark .corner-info,
+    .dark .corner-right {
+      color: rgba(238, 231, 212, 0.6);
+    }
+
+    .dark .badge {
+      border-color: var(--mainColor);
+      background: rgba(238, 231, 212, 0.1);
+    }
+
+    .dark #svg-r1,
+    .dark #svg-r2,
+    .dark #svg-orbit {
+      stroke: var(--circle-stroke);
+      opacity: 0.45;
+    }
+
+    .dark #svg-conn {
+      stroke: var(--path-stroke);
+      opacity: 0.7;
+    }
+
+    /* باقي التنسيقات العامة */
+    #scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #overlay-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    @keyframes dashCrawl {
+      to {
+        stroke-dashoffset: -120;
+      }
+    }
+
+    /* اللوحة المركزية */
+    #center-panel {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%,
+          rgba(255, 252, 240, 0.96) 0%,
+          var(--secbg) 100%);
+      border: 1px solid var(--border-glow-light);
+      box-shadow:
+        0 0 0 1px rgba(67, 50, 34, 0.05),
+        0 0 40px rgba(67, 50, 34, 0.08) inset,
+        0 15px 35px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      backdrop-filter: blur(2px);
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    .pview {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      text-align: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .pview.out {
+      opacity: 0;
+      transform: scale(0.85);
+      pointer-events: none;
+    }
+
+    #vd .big-title {
+      font-size: clamp(22px, 4vw, 44px);
+      font-weight: 900;
+      color: var(--mainColor);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      font-family: var(--secFont);
+    }
+
+    #vd .hint {
+      margin-top: clamp(8px, 2vh, 14px);
+      font-size: clamp(10px, 1.5vw, 12px);
+      color: var(--textWhy);
+      font-weight: 500;
+    }
+
+    #vd .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: clamp(10px, 2.5vh, 20px);
+      padding: 6px 22px;
+      border-radius: 60px;
+      border: 1px solid var(--navBorderColor);
+      background: rgba(67, 50, 34, 0.05);
+      font-size: clamp(10px, 1.5vw, 12px);
+      font-weight: 700;
+    }
+
+    #vd .badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mainColor);
+      opacity: 0.7;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    #vm {
+      position: relative;
+    }
+
+    #global-close-btn {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: clamp(28px, 4vw, 36px);
+      height: clamp(28px, 4vw, 36px);
+      border-radius: 50%;
+      background: rgba(67, 50, 34, 0.08);
+      border: 1px solid rgba(67, 50, 34, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 25;
+      font-size: clamp(16px, 2.5vw, 22px);
+      color: var(--mainColor);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+    }
+
+    #global-close-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #global-close-btn:hover {
+      background: rgba(67, 50, 34, 0.2);
+      transform: scale(1.05);
+    }
+
+    #vm .av-wrap {
+      width: clamp(50px, 12vw, 95px);
+      height: clamp(50px, 12vw, 95px);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--mainColor);
+      background: var(--avatarBg);
+      margin-bottom: clamp(8px, 2vh, 16px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    #vm .av-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #vm .av-wrap .char {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(22px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--mainColor);
+      background: radial-gradient(circle, rgba(67, 50, 34, 0.1), transparent);
+    }
+
+    #vm .mem-name {
+      font-size: clamp(16px, 2.5vw, 26px);
+      font-weight: 800;
+      color: var(--mainColor);
+      margin-bottom: 4px;
+      font-family: var(--secFont);
+    }
+
+    #vm .mem-role {
+      font-size: clamp(11px, 1.5vw, 14px);
+      color: var(--textWhy);
+      font-weight: 500;
+      margin-bottom: clamp(10px, 2.5vh, 20px);
+    }
+
+    .socials {
+      display: flex;
+      gap: clamp(10px, 2vw, 18px);
+      justify-content: center;
+    }
+
+    .soc-btn {
+      width: clamp(32px, 5vw, 44px);
+      height: clamp(32px, 5vw, 44px);
+      border-radius: 12px;
+      background: rgba(67, 50, 34, 0.08);
+      border: 1px solid rgba(67, 50, 34, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mainColor);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .soc-btn svg {
+      width: clamp(16px, 2.5vw, 22px);
+      height: clamp(16px, 2.5vw, 22px);
+      fill: currentColor;
+    }
+
+    /* العُقَد (الدوائر) */
+    .mnode {
+      position: absolute;
+      cursor: pointer;
+      z-index: 20;
+      opacity: 0;
+      animation: popIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0) rotate(-90deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .mnode-ring {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2.5px solid rgba(67, 50, 34, 0.35);
+      background: var(--secbg);
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), border-color 0.2s;
+    }
+
+    .mnode:hover .mnode-ring,
+    .mnode.lit .mnode-ring {
+      border-color: var(--mainColor);
+      transform: scale(1.15);
+    }
+
+    .mnode-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%) brightness(0.95);
+      transition: filter 0.3s;
+    }
+
+    .mnode.lit .mnode-ring img,
+    .mnode:hover .mnode-ring img {
+      filter: grayscale(0%) brightness(1.02);
+    }
+
+    .mnode-ring .char {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: calc(var(--node-size) * 0.4);
+      font-weight: 800;
+      color: var(--mainColor);
+      background: radial-gradient(circle, rgba(67, 50, 34, 0.08), transparent);
+    }
+
+    .mnode-tip {
+      position: absolute;
+      white-space: nowrap;
+      font-size: clamp(10px, 1.5vw, 13px);
+      font-weight: 600;
+      color: var(--mainColor);
+      background: rgba(255, 252, 240, 0.96);
+      border: 1px solid rgba(67, 50, 34, 0.3);
+      padding: 4px 12px;
+      border-radius: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      backdrop-filter: blur(6px);
+      z-index: 25;
+    }
+
+    .mnode:hover .mnode-tip {
+      opacity: 1;
+    }
+
+    .home-link {
+      position: fixed;
+      top: clamp(12px, 3vw, 24px);
+      left: clamp(12px, 3vw, 24px);
+      width: clamp(36px, 5vw, 44px);
+      height: clamp(36px, 5vw, 44px);
+      border-radius: 50%;
+      background: rgba(67, 50, 34, 0.08);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(67, 50, 34, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      text-decoration: none;
+      color: var(--mainColor);
+      font-size: clamp(16px, 2.5vw, 22px);
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover {
+      transform: scale(1.05);
+    }
+
+    .corner-info,
+    .corner-right {
+      position: fixed;
+      bottom: clamp(12px, 3vw, 22px);
+      font-size: clamp(9px, 1.2vw, 11px);
+      font-weight: 500;
+      color: var(--textWhy);
+      pointer-events: none;
+      opacity: 0.75;
+    }
+
+    .corner-info {
+      left: clamp(12px, 3vw, 22px);
+    }
+
+    .corner-right {
+      right: clamp(12px, 3vw, 22px);
+      text-align: right;
+    }
+
+    @media (max-width: 480px) {
+
+      .corner-info,
+      .corner-right {
+        display: none;
+      }
+    }
+
+    #svg-r1,
+    #svg-r2,
+    #svg-orbit {
+      stroke: var(--circle-stroke);
+      opacity: 0.35;
+    }
+
+    #svg-conn {
+      stroke: var(--path-stroke);
+      opacity: 0.5;
+    }
+
+    #svg-highlight {
+      stroke: var(--mainColor);
+      opacity: 0.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scene">
+    <svg id="overlay-svg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="soft-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#433222" stop-opacity="0.05" />
+          <stop offset="100%" stop-color="#433222" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <circle id="svg-ambient" cx="0" cy="0" r="1" fill="url(#soft-glow)" />
+      <circle id="svg-r1" cx="0" cy="0" r="1" fill="none" stroke-width="1.2" />
+      <circle id="svg-r2" cx="0" cy="0" r="1" fill="none" stroke-width="1" />
+      <circle id="svg-orbit" cx="0" cy="0" r="1" fill="none" stroke-width="2" stroke-dasharray="8 12" />
+      <line id="svg-conn" x1="0" y1="0" x2="0" y2="0" stroke-width="1.8" stroke-dasharray="5 7" opacity="0" />
+      <circle id="svg-highlight" cx="-999" cy="-999" r="1" fill="none" stroke-width="2.5" opacity="0" />
+      <g id="svg-ticks"></g>
+    </svg>
+
+    <div id="center-panel">
+      <div id="global-close-btn" title="إغلاق">✕</div>
+      <div class="pview" id="vd">
+        <div class="big-title">التقِ<br>بفريقنا</div>
+        <div class="hint"> اضغط على أي عضو </div>
+      </div>
+      <div class="pview out" id="vm">
+        <div class="av-wrap" id="vm-av"></div>
+        <div class="mem-name" id="vm-name"></div>
+        <div class="mem-role" id="vm-role"></div>
+        <div class="socials" id="vm-links"></div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#" id="homeButton" class="home-link" title="الصفحة الرئيسية">↶</a>
+
+  <script>
+    // ------------------  الكشف عن وضع الدارك مود ومزامنته مع الصفحة الرئيسية ------------------
+    (function initThemeSync() {
+      let isDark = false;
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        isDark = true;
+      } else if (storedTheme === 'light') {
+        isDark = false;
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        isDark = prefersDark;
+      }
+
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('dark');
+      }
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'theme') {
+          const newTheme = e.newValue;
+          if (newTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+          } else if (newTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
+          }
+        }
+      });
+    })();
+
+    // بيانات أعضاء الفريق (كل عضو الآن له روابط لينكد إن وجيت هاب، حتى لو كانت "#" سيظهر الزر)
+    const TEAM = [
+      { name: "Kareem Hendawy", role: "Full Stack Developer", hasPhoto: true, photo: "imgsTeam/kareem.jpeg", linkedin: "https://www.linkedin.com/in/kareem-w-2a2769325/", github: "https://github.com/karim-hendawy" },
+      { name: "Seba ELazazy", role: "Backend Developer", hasPhoto: true, photo: "imgsTeam/seba.jpeg", linkedin: "https://www.linkedin.com/in/seba-elazazy-01793a322?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app", github: "https://github.com/SebaElazazy" },
+      { name: "Adam Abo Mleeh", role: "Ai Engineer", hasPhoto: true, photo: "imgsTeam/adam.jpeg", linkedin: "https://www.linkedin.com/in/adam-mohamed-0255932b8/", github: "https://github.com/101-adam" },
+      { name: "Mariam Salem", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/mariam.jpeg", linkedin: "https://www.linkedin.com/in/mariam-salem-441b2140a/", github: "#" },
+      { name: "Mohamed Mansour", role: "Front end & Visual designer", hasPhoto: true, photo: "imgsTeam/mohamed.jpeg", linkedin: "https://www.linkedin.com/in/mohamed-mansour27", github: "https://github.com/mohamedmansour277" },
+      { name: "Esraa Ahmed", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/esraa.jpeg", linkedin: "#", github: "#" },
+      { name: "Omar Elithy", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/omar.jpeg", linkedin: "https://www.linkedin.com/in/omar-ellithey", github: "https://github.com/omarellithey1" },
+      { name: "Zhraa Redaallah", role: "Backend Developer", hasPhoto: true, photo: "imgsTeam/za.jpeg", linkedin: "#", github: "#" },
+      { name: "Ahd Hossam", role: "Backend Developer", hasPhoto: true, photo: "imgsTeam/ahd.jpeg", linkedin: "#", github: "#" },
+      { name: "Mariam Reda", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/mariam reda.jpeg", linkedin: "#", github: "#" },
+      {
+        name: "Aly Nassar", role: "IT Engineer", hasPhoto: true, photo: "imgsTeam/ali.jpeg", linkedin: "www.linkedin.com/in/aly- nassar - 168452389", github: "#" },
+    { name: "Noorhan Mohamed", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/noor.jpeg", linkedin: "https://www.linkedin.com/in/noor-mohamed-a7103340b", github: "#" },
+      { name: "Roaa Elghazal", role: "Frontend Developer", hasPhoto: true, photo: "imgsTeam/roaa.jpeg", linkedin: "#", github: "#" }
+    ];
+
+    const LI_SVG = `<svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`;
+    const GH_SVG = `<svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>`;
+
+    const sceneElem = document.getElementById('scene');
+    const svgRoot = document.getElementById('overlay-svg');
+    const cpDiv = document.getElementById('center-panel');
+    const ticksGroup = document.getElementById('svg-ticks');
+    const NS = "http://www.w3.org/2000/svg";
+
+    let W, H, cx, cy, S, CP_SIZE, NODE_SIZE, R_ORBIT, R_INNER, R_MID;
+    let pinnedIndex = null;
+    const nodeElements = [];
+
+    const defaultView = document.getElementById('vd');
+    const memberView = document.getElementById('vm');
+    const connLine = document.getElementById('svg-conn');
+    const highRing = document.getElementById('svg-highlight');
+    const globalCloseBtn = document.getElementById('global-close-btn');
+
+    // إنشاء عناصر الأعضاء
+    function initNodes() {
+      TEAM.forEach((member, i) => {
+        const node = document.createElement('div');
+        node.className = 'mnode';
+        node.style.animationDelay = `${0.1 + i * 0.05}s`;
+
+        const ringDiv = document.createElement('div');
+        ringDiv.className = 'mnode-ring';
+        if (member.hasPhoto) {
+          const img = document.createElement('img');
+          img.src = member.photo;
+          ringDiv.appendChild(img);
+        } else {
+          const fallback = document.createElement('div');
+          fallback.className = 'char';
+          fallback.textContent = member.name[0];
+          ringDiv.appendChild(fallback);
+        }
+        node.appendChild(ringDiv);
+
+        const tipSpan = document.createElement('div');
+        tipSpan.className = 'mnode-tip';
+        tipSpan.textContent = member.name;
+        node.appendChild(tipSpan);
+
+        sceneElem.appendChild(node);
+        nodeElements.push(node);
+
+        node.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pinMember(i);
+        });
+      });
+    }
+
+    function updateLayout() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      cx = W / 2;
+      cy = H / 2;
+      S = Math.min(W, H);
+
+      const isMobile = W < 600;
+
+      NODE_SIZE = isMobile ? Math.max(45, S * 0.15) : Math.max(70, S * 0.12);
+      CP_SIZE = isMobile ? Math.min(S * 0.5, 220) : Math.round(S * 0.36);
+
+      R_ORBIT = (S / 2) - (NODE_SIZE / 2) - (isMobile ? 10 : 20);
+      R_INNER = R_ORBIT * 0.35;
+      R_MID = R_ORBIT * 0.6;
+
+      document.documentElement.style.setProperty('--node-size', NODE_SIZE + 'px');
+
+      cpDiv.style.width = `${CP_SIZE}px`;
+      cpDiv.style.height = `${CP_SIZE}px`;
+      cpDiv.style.left = `${cx - CP_SIZE / 2}px`;
+      cpDiv.style.top = `${cy - CP_SIZE / 2}px`;
+
+      function setCircle(id, r) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.setAttribute('cx', cx);
+        el.setAttribute('cy', cy);
+        el.setAttribute('r', r);
+      }
+      setCircle('svg-ambient', R_ORBIT * 0.68);
+      setCircle('svg-r1', R_INNER);
+      setCircle('svg-r2', R_MID);
+      setCircle('svg-orbit', R_ORBIT);
+      document.getElementById('svg-orbit').style.animation = 'dashCrawl 48s linear infinite';
+
+      ticksGroup.innerHTML = '';
+      const oldNumbers = svgRoot.querySelectorAll('.orbit-number');
+      oldNumbers.forEach(n => n.remove());
+
+      TEAM.forEach((_, idx) => {
+        const angle = (idx / TEAM.length) * Math.PI * 2 - Math.PI / 2;
+        const r0 = R_ORBIT - (isMobile ? 8 : 14);
+        const r1 = R_ORBIT + (isMobile ? 4 : 8);
+
+        const line = document.createElementNS(NS, 'line');
+        line.setAttribute('x1', cx + r0 * Math.cos(angle));
+        line.setAttribute('y1', cy + r0 * Math.sin(angle));
+        line.setAttribute('x2', cx + r1 * Math.cos(angle));
+        line.setAttribute('y2', cy + r1 * Math.sin(angle));
+        line.setAttribute('stroke', 'var(--circle-stroke)');
+        line.setAttribute('stroke-width', '1.5');
+        line.setAttribute('stroke-linecap', 'round');
+        line.style.opacity = '0.5';
+        ticksGroup.appendChild(line);
+
+        const mx = cx + R_ORBIT * Math.cos(angle);
+        const my = cy + R_ORBIT * Math.sin(angle);
+        const node = nodeElements[idx];
+
+        node.style.width = `${NODE_SIZE}px`;
+        node.style.height = `${NODE_SIZE}px`;
+        node.style.left = `${mx - NODE_SIZE / 2}px`;
+        node.style.top = `${my - NODE_SIZE / 2}px`;
+
+        const tipSpan = node.querySelector('.mnode-tip');
+        if (my <= cy) {
+          tipSpan.style.top = `${NODE_SIZE + 8}px`;
+          tipSpan.style.bottom = 'auto';
+        } else {
+          tipSpan.style.bottom = `${NODE_SIZE + 8}px`;
+          tipSpan.style.top = 'auto';
+        }
+
+        if (pinnedIndex === idx) {
+          updateConnectionVisuals(mx, my);
+        }
+      });
+    }
+
+    function updateConnectionVisuals(mx, my) {
+      const dx = mx - cx, dy = my - cy;
+      const dist = Math.hypot(dx, dy);
+      const halfCP = CP_SIZE / 2 + 6;
+      const halfNode = NODE_SIZE / 2 + 3;
+
+      if (dist > 0) {
+        connLine.setAttribute('x1', cx + halfCP * dx / dist);
+        connLine.setAttribute('y1', cy + halfCP * dy / dist);
+        connLine.setAttribute('x2', mx - halfNode * dx / dist);
+        connLine.setAttribute('y2', my - halfNode * dy / dist);
+      }
+      connLine.style.opacity = '1';
+
+      highRing.setAttribute('cx', mx);
+      highRing.setAttribute('cy', my);
+      highRing.setAttribute('r', NODE_SIZE * 0.72);
+      highRing.style.opacity = '1';
+    }
+
+    // دالة عرض العضو مع إظهار أزرار التواصل بشكل دائم (حتى لو كانت الروابط "#")
+    function renderMemberOnPanel(member, mx, my) {
+      const avWrap = document.getElementById('vm-av');
+      avWrap.innerHTML = '';
+      if (member.hasPhoto) {
+        const img = document.createElement('img');
+        img.src = member.photo;
+        avWrap.appendChild(img);
+      } else {
+        const ch = document.createElement('div');
+        ch.className = 'char';
+        ch.textContent = member.name[0];
+        avWrap.appendChild(ch);
+      }
+      document.getElementById('vm-name').textContent = member.name;
+      document.getElementById('vm-role').textContent = member.role;
+
+      const linksContainer = document.getElementById('vm-links');
+      linksContainer.innerHTML = '';
+
+      // إضافة زر لينكد إن دائمًا (إذا كان الرابط غير موجود نستخدم "#")
+      const liUrl = member.linkedin && member.linkedin.trim() !== "" ? member.linkedin : "#";
+      const liBtn = document.createElement('a');
+      liBtn.className = 'soc-btn';
+      liBtn.href = liUrl;
+      liBtn.target = '_blank';
+      liBtn.innerHTML = LI_SVG;
+      linksContainer.appendChild(liBtn);
+
+      // إضافة زر جيت هاب دائمًا
+      const ghUrl = member.github && member.github.trim() !== "" ? member.github : "#";
+      const ghBtn = document.createElement('a');
+      ghBtn.className = 'soc-btn';
+      ghBtn.href = ghUrl;
+      ghBtn.target = '_blank';
+      ghBtn.innerHTML = GH_SVG;
+      linksContainer.appendChild(ghBtn);
+
+      updateConnectionVisuals(mx, my);
+
+      defaultView.classList.add('out');
+      memberView.classList.remove('out');
+      globalCloseBtn.classList.add('visible');
+    }
+
+    function resetToDefault() {
+      defaultView.classList.remove('out');
+      memberView.classList.add('out');
+      connLine.style.opacity = '0';
+      highRing.style.opacity = '0';
+      nodeElements.forEach(node => node.classList.remove('lit'));
+      pinnedIndex = null;
+      globalCloseBtn.classList.remove('visible');
+    }
+
+    function pinMember(index) {
+      const member = TEAM[index];
+      if (!member) return;
+      pinnedIndex = index;
+
+      const angle = (index / TEAM.length) * Math.PI * 2 - Math.PI / 2;
+      const mx = cx + R_ORBIT * Math.cos(angle);
+      const my = cy + R_ORBIT * Math.sin(angle);
+
+      nodeElements.forEach((node, i) => {
+        if (i === index) node.classList.add('lit');
+        else node.classList.remove('lit');
+      });
+
+      renderMemberOnPanel(member, mx, my);
+    }
+
+    window.addEventListener('resize', () => updateLayout());
+
+    globalCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetToDefault();
+    });
+
+    document.getElementById('homeButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = "../index.html";
+    });
+
+    // تذييل الصفحة
+    const leftFooter = document.createElement('div');
+    leftFooter.className = 'corner-info';
+    leftFooter.innerHTML = `TEAM ROSTER<br>فريق العمل`;
+    document.body.appendChild(leftFooter);
+
+    const rightFooter = document.createElement('div');
+    rightFooter.className = 'corner-right';
+    rightFooter.innerHTML = `${new Date().getFullYear()} ©<br>جميع الحقوق محفوظة`;
+    document.body.appendChild(rightFooter);
+
+    initNodes();
+    updateLayout();
+    resetToDefault();
+  </script>
+</body>
+
+</html>
