@@ -904,30 +904,31 @@ setInterval(handleNext, 5000);
 // دالة للتحقق من حالة تسجيل الدخول (مثال)
 function isUserLoggedIn() {
     // الطريقة الأكثر أماناً: التحقق عبر خلفية السيرفر (API)
-    // لكن كمثال بسيط في الواجهة:
-    
-    // الخيار 1: فحص وجود token في localStorage
-    const userToken = localStorage.getItem('userToken');
-    
-    // الخيار 2: فحص وجود كائن مستخدم في sessionStorage
-    const userData = sessionStorage.getItem('userData');
-    
-    // الخيار 3: فحص وجود كوكي معين (مثل session cookie)
-    // document.cookie.includes('sessionId=')
-    
-    return !!(userToken || userData); // ترجع true إذا كان مسجل الدخول
+    // لكن كمثال oggedIn() {
+  // الطريقة الأكثر أماناً: التحقق عبر خلفية السيرفر (API)
+  // لكن كمثال بسيط في الواجهة:
+
+  // الخيار 1: فحص وجود token في localStorage
+  const userToken = localStorage.getItem("userToken");
+
+  // الخيار 2: فحص وجود كائن مستخدم في sessionStorage
+  const userData = sessionStorage.getItem("userData");
+
+  // الخيار 3: فحص وجود كوكي معين (مثل session cookie)
+  // document.cookie.includes('sessionId=')
+
+  return !!(userToken || userData); // ترجع true إذا كان مسجل الدخول
 }
 
 // معالجة الضغط على رابط "إرثك"
-document.getElementById('heritageLink').addEventListener('click', function(e) {
-    e.preventDefault(); // منع السلوك الافتراضي للرابط
-    
-    if (isUserLoggedIn()) {
-        // إذا كان مسجل الدخول → يذهب للداشبورد
-        window.location.href = './dashboard.html'; // غيري الرابط حسب مسار الداشبورد عندك
-    } else {
-        // إذا لم يكن مسجل الدخول → يفتح نافذة التسجيل
-        openAuthModal(); // استدعاء الدالة الموجودة عندك
-    }
-});
+document.getElementById("heritageLink").addEventListener("click", function (e) {
+  e.preventDefault(); // منع السلوك الافتراضي للرابط
 
+  if (isUserLoggedIn()) {
+    // إذا كان مسجل الدخول → يذهب للداشبورد
+    window.location.href = "./dashboard.html"; // غيري الرابط حسب مسار الداشبورد عندك
+  } else {
+    // إذا لم يكن مسجل الدخول → يفتح نافذة التسجيل
+    openAuthModal(); // استدعاء الدالة الموجودة عندك
+  }
+});

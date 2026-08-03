@@ -70,12 +70,26 @@
       min-height: 100vh;
       direction: rtl;
       transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
     }
 
     .layout {
       display: flex;
       font-family: var(--mainFont);
       min-height: calc(100vh);
+      position: relative;
+    }
+
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.24s ease;
+      z-index: 90;
+      display: none;
     }
 
     /* SIDEBAR */
@@ -275,6 +289,21 @@
       justify-content: space-between;
       position: sticky;
       z-index: 50;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--navBorderColor);
+      border-radius: 12px;
+      background: var(--cardBg);
+      color: var(--mainColor);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      flex-shrink: 0;
     }
 
     .breadcrumb {
@@ -2322,6 +2351,130 @@
       cursor: pointer;
     }
 
+    @media (max-width: 900px) {
+      .sidebar {
+        right: 0;
+        transform: translateX(105%);
+        transition: transform 0.28s ease;
+        box-shadow: -12px 0 28px rgba(0, 0, 0, 0.16);
+        width: min(82vw, 320px);
+      }
+
+      body.menu-open .sidebar {
+        transform: translateX(0);
+      }
+
+      body.menu-open .sidebar-backdrop {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .main {
+        margin-right: 0;
+        width: 100%;
+      }
+
+      .topbar {
+        padding: 0 16px;
+        height: 62px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .breadcrumb {
+        font-size: 16px;
+      }
+
+      .page {
+        padding: 20px 16px 28px;
+      }
+
+      .page-title {
+        font-size: 28px;
+      }
+
+      .page-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .count-badge {
+        width: 100%;
+      }
+
+      .btn-add {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .stat-item {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stat-num {
+        font-size: 30px;
+      }
+
+      .stat-label {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .stat-sep {
+        display: none;
+      }
+
+      .stats-container {
+        align-items: stretch;
+      }
+
+      .categories-grid,
+      .cards-grid,
+      .bank-cards-grid,
+      .val-grid,
+      .msg-grid,
+      .mem-grid,
+      .prop-grid,
+      .heirs-cta-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-left {
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-title {
+        font-size: 24px;
+      }
+
+      .count-num {
+        font-size: 42px;
+      }
+
+      .user-name {
+        display: none;
+      }
+
+      .charity-card {
+        font-size: 14px;
+      }
+    }
+
     ::-webkit-scrollbar {
       width: 5px;
     }
@@ -2391,6 +2544,8 @@
     </div>
   </div>
 
+  <div class="sidebar-backdrop" onclick="closeSidebarMenu()"></div>
+
   <div class="layout">
 
     <!-- SIDEBAR -->
@@ -2443,6 +2598,9 @@
     <main class="main">
       <header class="topbar">
         <div class="breadcrumb">
+          <button class="menu-toggle" onclick="toggleSidebarMenu()" aria-label="فتح القائمة">
+            <i class="hgi hgi-stroke hgi-rounded hgi-menu-02"></i>
+          </button>
           <span>لوحة التحكم</span><span style="opacity:0.4;">›</span>
           <span class="current" id="breadcrumb-current">لوحة التحكم</span>
         </div>
@@ -3238,6 +3396,17 @@
       'memories': { el: 'page-memories', label: 'ذكرياتي', load: renderMemories },
     };
 
+    function toggleSidebarMenu() {
+      const body = document.body;
+      const open = body.classList.toggle('menu-open');
+      document.querySelector('.sidebar-backdrop').style.display = open ? 'block' : 'none';
+    }
+
+    function closeSidebarMenu() {
+      document.body.classList.remove('menu-open');
+      document.querySelector('.sidebar-backdrop').style.display = 'none';
+    }
+
     function showPage(pageId) {
       if (!PAGE_META[pageId]) return;
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -3246,6 +3415,7 @@
       document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
       const nav = document.querySelector(`.nav-item[data-page="${pageId}"]`);
       if (nav) nav.classList.add('active');
+      closeSidebarMenu();
       PAGE_META[pageId].load();
     }
 
