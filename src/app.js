@@ -642,12 +642,6 @@ function resetIdleTimer() {
     { cx: 732, cy: 1870 }, { cx: 108, cy: 2140 }, { cx: 420, cy: 2450 }
   ];
 
-  // lightweight performance detection for mobile/low-end devices
-  const ua = navigator.userAgent || '';
-  const isMobileLike = /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(ua) || matchMedia('(pointer:coarse)').matches;
-  const lowMemory = ('deviceMemory' in navigator) && navigator.deviceMemory && navigator.deviceMemory < 2;
-  const lowPerf = isMobileLike || lowMemory || matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   if (container) {
     stationCoords.forEach((coord, idx) => {
       const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -663,8 +657,7 @@ function resetIdleTimer() {
         circle.setAttribute("fill", "var(--mainColor)");
         circle.setAttribute("stroke", "var(--bgColor)");
         circle.setAttribute("stroke-width", "2");
-        // avoid expensive drop-shadow on low perf devices
-        if (!lowPerf) circle.style.filter = "drop-shadow(0 0 6px var(--mainColor))";
+        circle.style.filter = "drop-shadow(0 0 6px var(--mainColor))";
         group.appendChild(circle);
       });
       container.appendChild(group);
@@ -709,22 +702,6 @@ function resetIdleTimer() {
   };
 
   let progressTrigger = null;
-  // throttle stroke updates via rAF to limit to ~30fps on low perf
-  let pendingOffset = null;
-  let lastAppliedTs = 0;
-  function applyPendingOffset(ts) {
-    if (pendingOffset === null) return;
-    const now = ts || performance.now();
-    // apply at most every 33ms (~30fps) on lowPerf devices, otherwise every frame
-    const minDelta = lowPerf ? 33 : 0;
-    if (now - lastAppliedTs >= minDelta) {
-      if (pathLine && totalLength > 0) pathLine.style.strokeDashoffset = Math.max(0, pendingOffset);
-      pendingOffset = null;
-      lastAppliedTs = now;
-    }
-    requestAnimationFrame(applyPendingOffset);
-  }
-
   function initScrollProgress() {
     if (!journeyWrap) return;
     if (progressTrigger) progressTrigger.kill();
@@ -733,15 +710,12 @@ function resetIdleTimer() {
       trigger: journeyWrap,
       start: "top top",
       end: "bottom bottom",
-      scrub: lowPerf ? 0.9 : 0.8,
+      scrub: 0.8,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         const prog = Math.min(1, Math.max(0, self.progress));
         if (pathLine && totalLength > 0) {
-          // set pending and let rAF apply (throttled on low perf)
-          pendingOffset = Math.max(0, totalLength * (1 - prog));
-          // kick off rAF loop if not already
-          requestAnimationFrame(applyPendingOffset);
+          pathLine.style.strokeDashoffset = Math.max(0, totalLength * (1 - prog));
         }
         stops.forEach((stop, i) => {
           if (!stop.el) return;
@@ -751,13 +725,7 @@ function resetIdleTimer() {
             const tg = tripleGroups[i];
             if (tg && !tg.classList.contains("active")) {
               tg.classList.add("active");
-              // on low perf, avoid staggered JS animations; use CSS class only
-              if (!lowPerf) {
-                gsap.fromTo(tg.children, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, stagger: 0.07, ease: "back.out(1.2)" });
-              } else {
-                // ensure children are visible via CSS class (lightweight)
-                Array.from(tg.children).forEach((c) => c.setAttribute('data-visible','1'));
-              }
+              gsap.fromTo(tg.children, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, stagger: 0.07, ease: "back.out(1.2)" });
             }
           }
         });

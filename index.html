@@ -457,16 +457,14 @@
                 <stop offset="100%" stop-color="var(--textWhy)" />
               </radialGradient>
               <filter id="circleGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <!-- reduced blur stdDeviation for performance -->
-                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feGaussianBlur stdDeviation="8" result="blur" />
                 <feMerge>
                   <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
               <filter id="pathGlow" x="-5%" y="-2%" width="110%" height="105%">
-                <!-- reduced blur stdDeviation for performance -->
-                <feGaussianBlur stdDeviation="1.2" />
+                <feGaussianBlur stdDeviation="3.5" />
                 <feMerge>
                   <feMergeNode />
                   <feMergeNode in="SourceGraphic" />

@@ -1354,13 +1354,6 @@ body.dark .routat-image::before {
   overflow: visible;
 }
 
-/* optimize path rendering */
-.journey-svg #mainPath {
-  vector-effect: non-scaling-stroke;
-  will-change: stroke-dashoffset;
-  transition: stroke-dashoffset 0.12s linear;
-}
-
 .stop-group {
   transform-box: fill-box;
   transform-origin: center;
@@ -1376,20 +1369,23 @@ body.dark .routat-image::before {
 }
 
 .stop-group circle:first-child {
-  transform-box: fill-box;
-  transform-origin: center;
-  will-change: transform, stroke-opacity;
   animation: pulseRing 3.8s infinite ease-in-out;
 }
 
 @keyframes pulseRing {
-  0%, 100% {
+  0% {
     stroke-opacity: 0.1;
-    transform: scale(1);
+    r: 68;
   }
+
   50% {
     stroke-opacity: 0.5;
-    transform: scale(1.18);
+    r: 84;
+  }
+
+  100% {
+    stroke-opacity: 0.1;
+    r: 68;
   }
 }
 
@@ -1397,9 +1393,7 @@ body.dark .routat-image::before {
   transform-origin: center;
   opacity: 0;
   transform: scale(0);
-  /* animate only transform & opacity for performance */
-  transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.55, 1), opacity 0.35s;
-  will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.55, 1), opacity 0.4s;
 }
 
 .dash-triple-group.active {
@@ -1407,42 +1401,9 @@ body.dark .routat-image::before {
   transform: scale(1);
 }
 
-/* lightweight circle appearance: use transform scale for pulse instead of r changes */
 .dash-triple-group circle {
-  /* drop-shadow removed on small/low-perf devices via media query; default kept for desktops */
-  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.4, 1), opacity 0.28s ease;
-  will-change: transform, opacity;
-  transform-origin: center;
-}
-
-/* when JS sets data-visible on low-perf devices, show with CSS only */
-.dash-triple-group circle[data-visible="1"] {
-  transform: scale(1);
-  opacity: 1;
-}
-
-/* default hidden children state (so CSS-only reveal works similarly) */
-.dash-triple-group circle {
-  transform: scale(0);
-  opacity: 0;
-}
-
-/* Desktop: keep drop-shadow for nicer look */
-@media (min-width: 821px) {
-  .dash-triple-group circle {
-    filter: drop-shadow(0 0 6px var(--mainColor));
-  }
-}
-
-/* Mobile / low-perf: ensure no heavy filters */
-@media (max-width: 820px), (pointer: coarse) {
-  .journey-svg defs filter, .dash-triple-group circle {
-    filter: none !important;
-  }
-  /* reduce path stroke width to lessen raster cost */
-  .journey-svg #mainPath {
-    stroke-width: 4 !important;
-  }
+  filter: drop-shadow(0 0 6px var(--mainColor));
+  transition: r 0.2s;
 }
 
 /* Journey Cards */
@@ -1451,18 +1412,14 @@ body.dark .routat-image::before {
   pointer-events: auto;
   width: clamp(220px, 26vw, 340px);
   background: var(--card-glass-light);
-  /* reduced blur to improve performance */
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(20px);
   border-radius: 36px;
   padding: clamp(18px, 2vw, 28px) clamp(18px, 2vw, 28px) clamp(20px, 2vw, 32px);
   border: 1px solid var(--border-glow-light);
-  /* softened shadow to reduce repaint cost */
-  box-shadow: 0 18px 30px -12px var(--shadow-light), 0 0 0 0.5px rgba(67, 50, 34, 0.06) inset;
-  /* animate only transform & opacity for best performance */
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), opacity 0.35s ease;
-  will-change: transform, opacity;
+  box-shadow: 0 28px 48px -18px var(--shadow-light), 0 0 0 0.5px rgba(67, 50, 34, 0.08) inset;
+  transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   opacity: 0;
-  transform: translateY(40px) translateZ(0);
+  transform: translateY(40px);
   cursor: default;
   z-index: 20;
 }
